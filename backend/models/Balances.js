@@ -1,12 +1,9 @@
 const mongoose = require('mongoose')
 
-const balanceSchema = new mongoose.Schema({
+const BalanceSchema = new mongoose.Schema({
     bankBalance: {
         type: Number
     },
-    // {
-    //     timestamps:
-    // }
-})
+}, { timestamps: true })
 
-module.exports = mongoose.model('Balances', balanceSchema)
+module.exports = mongoose.model('Balances', BalanceSchema)

@@ -3,7 +3,7 @@ const colors = require('colors')
 const cors = require('cors')
 require('dotenv').config()
 const { graphqlHTTP } = require('express-graphql')
-const mongoConnect = require('./confg/db')
+const mongoConnect = require('./db')
 
 const port = process.env.PORT || 5000
 
