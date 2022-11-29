@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const BalanceSchema = new mongoose.Schema({
     bankBalance: {
-        type: Number
+        type: String
     },
 }, { timestamps: true })
 
