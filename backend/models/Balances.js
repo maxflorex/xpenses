@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 
+
 const BalanceSchema = new mongoose.Schema({
     bankBalance: {
         type: String

@@ -10,15 +10,7 @@ const ExpensesType = new GraphQLObjectType({
     fields: () => ({
         id: { type: GraphQLID },
         title: { type: GraphQLString },
-        paidWith: {
-            type: new GraphQLEnumType({
-                name: 'paidWith',
-                values: {
-                    'Cash': { value: 'Cash' },
-                    'Card': { value: 'Card' },
-                }
-            })
-        },
+        paidWith: { type: GraphQLString },
         paidBy: {
             type: GraphQLString
         },
@@ -91,7 +83,7 @@ const mutation = new GraphQLObjectType({
                 title: { type: GraphQLString },
                 paidWith: {
                     type: new GraphQLEnumType({
-                        name: 'PaidWith',
+                        name: 'PaidIn',
                         values: {
                             'Cash': { value: 'Cash' },
                             'Card': { value: 'Card' },
@@ -133,10 +125,10 @@ const mutation = new GraphQLObjectType({
         deleteExpense: {
             type: ExpensesType,
             args: {
-                id: { type: GraphQLID }
+                id: { type: new GraphQLNonNull(GraphQLID) }
             },
             resolve(parent, args) {
-                Expenses.findByIdAndRemove(args.id)
+                return Expenses.findByIdAndRemove(args.id)
             }
         },
 
@@ -145,10 +137,10 @@ const mutation = new GraphQLObjectType({
         deleteBalance: {
             type: BalanceType,
             args: {
-                id: { type: GraphQLID }
+                id: { type: new GraphQLNonNull(GraphQLID) }
             },
             resolve(parent, args) {
-                Balances.findByIdAndRemove(args.id)
+                return Balances.findByIdAndRemove(args.id)
             }
         },
 
@@ -157,7 +149,7 @@ const mutation = new GraphQLObjectType({
         updateExpence: {
             type: ExpensesType,
             args: {
-                id: { type: GraphQLID },
+                id: { type: new GraphQLNonNull(GraphQLID) },
                 title: { type: GraphQLString },
                 paidWith: {
                     type: new GraphQLEnumType({
@@ -189,10 +181,11 @@ const mutation = new GraphQLObjectType({
         },
 
         // UPDATE BALANCE
+        
         updateBalance: {
             type: BalanceType,
             args: {
-                id: { type: GraphQLID },
+                id: { type: new GraphQLNonNull(GraphQLID) },
                 bankBalance: { type: GraphQLString }
             },
             resolve(parent, args) {
@@ -213,5 +206,6 @@ const mutation = new GraphQLObjectType({
 })
 
 module.exports = new GraphQLSchema({
-    query: RootQuery
+    query: RootQuery,
+    mutation
 })
