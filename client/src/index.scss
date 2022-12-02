@@ -18,10 +18,36 @@ body {
     background-color: $color2;
 }
 
+/* width */
+::-webkit-scrollbar {
+    width: 0.2rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: $color5;
+    border-radius: 10px;
+}
+
 h1 {
     font-size: 4rem;
     line-height: 4.6rem;
     color: $color5;
+}
+
+a {
+    color: $color5;
+    text-decoration: none;
+
+    &:hover{
+        color:#2b7a78
+    }
 }
 
 .container {
@@ -32,21 +58,27 @@ h1 {
     background-color: $color1;
     padding: 1rem;
     border-radius: 0.4rem;
+    margin-bottom: 1rem;
 }
 
 .full {
     padding: 1rem;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .row {
     display: flex;
-    align-items: center;
     gap: 0.4rem;
+    align-items: center;
+    align-content: center;
+    justify-items: center;
+    justify-content: center;
+    height: 100%;
 }
 
-.footer {
+footer {
     position: fixed;
     background-color: $color4;
     bottom: 0;
@@ -70,32 +102,54 @@ h1 {
 }
 
 form {
-    background-color: $color4;
-    padding: 2rem;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 1rem;
+    box-sizing: content-box;
+    align-self: center;
+    gap: 1rem;
+    width: 100%;
 }
 
-input {
+input,
+select {
+    border: 1px solid $color2;
     border-radius: 0.2rem;
     box-shadow: none;
-    border: none;
     padding: 0.4rem;
-    background-color: $color1;
+    background-color: $color2;
     &:focus {
-        border: none;
         box-shadow: none;
-        background-color: $color2;
         outline: 0;
+        background-color: $color1;
     }
+    // &:not(:last-child) {
+    //     margin-bottom: 1rem;
+    // }
 }
 
 .btn {
     border-radius: 0.2rem;
     border: none;
-    padding: 0.4rem;
+    padding: 0.4rem 0.8rem;
+    background-color: $color5;
+    color: $color1;
+    &:hover {
+        background-color: $color4;
+        cursor: pointer;
+    }
+}
+
+.btn-outlined {
+    border-radius: 0.2rem;
+    border: 1px solid $color5;
+    padding: 0.4rem 0.8rem;
+    background-color: transparent;
+    color: $color5;
+    &:hover {
+        background-color: $color2;
+        cursor: pointer;
+    }
 }
 
 .grid-3 {
@@ -107,9 +161,6 @@ input {
 
 .span-2 {
     grid-column: span 2;
-    background-color: $color3;
-    padding: 1rem;
-    border-radius: 0.4rem;
 }
 
 .balance {
@@ -122,9 +173,15 @@ input {
     display: grid;
     align-content: center;
     gap: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 
     h4 {
-        color: $color3;
+        color: $color2;
+        font-weight: normal;
     }
 
     div {
@@ -138,6 +195,23 @@ input {
     }
 }
 
+.hero {
+    background-color: $color3;
+    display: flex;
+    justify-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    align-items: center;
+    margin-bottom: 2rem;
+    background-image: url('./assets/seamless-grainy-texture-background_1409-2115.jpg');
+    background-blend-mode: darken;
+
+    span {
+        font-weight: normal;
+        color: $color1;
+    }
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -147,23 +221,92 @@ thead {
     text-align: left;
 }
 
-.hero {
-    background-color: $color3;
-    display: flex;
-    justify-items: center;
-    justify-content: space-between;
-    padding: 1rem;
-    align-items: center;
+tr {
+    border: 1px solid $color4;
+    border-radius: 1rem;
+    &:nth-child(even) {
+        background-color: $color2;
+    }
 
-    span {
-        font-weight: normal;
-        color: $color1;
+    &:hover:not(.heading) {
+        background-color: $color3;
     }
 }
 
-tr {
-    padding: 1rem;
-    &:nth-child(even) {
+.actions {
+    padding: 0.2rem;
+    border-radius: 0.2rem;
+    text-decoration: none;
+    color: $color5;
+    &:hover {
+        cursor: pointer;
+        background-color: $color2;
+    }
+}
+
+td,
+th {
+    padding: 0.6rem;
+}
+
+.btn2 {
+    background-color: $color3;
+    border: none;
+    padding: 0.4rem;
+    border-radius: 0.2rem;
+
+    &:hover {
         background-color: $color4;
+        cursor: pointer;
+    }
+}
+
+.btn3 {
+    background-color: transparent;
+    border: 1px solid $color4;
+    padding: 0.4rem;
+    border-radius: 0.2rem;
+
+    &:hover {
+        background-color: $color4;
+        cursor: pointer;
+    }
+}
+
+.modal {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.column {
+    display: grid;
+    gap: 1rem
+}
+
+.btn-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: $color4;
+    display: flex;
+    margin: 1rem;
+    padding: 0.4rem; 
+    border-radius: 0.2rem;
+
+    i {
+        color: $color1
+    }
+
+    &:hover {
+        background-color: #17252a;
+        cursor: pointer;
     }
 }

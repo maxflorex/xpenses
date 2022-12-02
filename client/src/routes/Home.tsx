@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
+import Actions from '../components/Actions'
 import ExpensesList from '../components/ExpensesList'
 import Hero from '../components/Hero'
 import Login from '../components/Login'
@@ -8,7 +9,9 @@ type Props = {}
 
 const Home = (props: Props) => {
 
-	const [isLogged, setIsLogged] = useState<boolean>(false)
+
+
+	const [isLogged, setIsLogged] = useState<boolean>(true)
 	const username = useSelector((state: any) => state.user.value.username)
 
 	useEffect(() => {
@@ -22,22 +25,11 @@ const Home = (props: Props) => {
 		return <Login />
 	}
 
-
 	return (
-		<>
+		<div style={{ marginBottom: '4rem' }}>
 			<Hero />
-
-			<div className="container">
-				<div className="grid-3">
-					<div className='balance'>
-						<p>First </p>
-					</div>
-					<div className='span-2'>
-						<ExpensesList />
-					</div>
-				</div>
-			</div>
-		</>
+			<ExpensesList />
+		</div>
 	)
 }
 

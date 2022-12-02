@@ -4,9 +4,9 @@ type Props = {}
 
 const Footer = (props: Props) => {
     return (
-        <div className="footer">
+        <footer className="footer">
             <p>Made with ❤ by <a href="https://maxflores.dev" target='blank'>Max Flores</a></p>
-        </div>
+        </footer>
     )
 }
 

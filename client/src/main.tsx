@@ -10,6 +10,7 @@ import { Provider } from 'react-redux'
 import { store } from './components/store';
 import { ApolloProvider } from '@apollo/client';
 import { client } from './api/api'
+import EditExpense from './routes/EditExpense'
 
 
 // ROUTES
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
     path: '/',
     element: <Home />,
     errorElement: <Error />
+  },
+  {
+    path: '/:id',
+    element: <EditExpense />,
   },
 ])
 
