@@ -1,8 +1,9 @@
+import { useMutation } from '@apollo/client'
 import React, { useState } from 'react'
+import { ADD_EXPENSE } from '../api/mutations/expense.mutations'
+import { GET_EXPENSES } from '../api/queries/expenses.queries'
 
-type Props = {}
-
-const FormExpense = (props: Props) => {
+const FormExpense = () => {
     const [formValues, setFormValues] = useState({
         title: '',
         paidBy: '',
@@ -12,8 +13,13 @@ const FormExpense = (props: Props) => {
 
     const { title, paidBy, paidWith, amount } = formValues
 
-    const handleChange = (e: any) => {
+    // ADD EXPENSE
+    const [addExpense]: any = useMutation(ADD_EXPENSE, {
+        variables: { title, paidBy, paidWith, amount },
+        refetchQueries: [{ query: GET_EXPENSES }]
+    })
 
+    const handleChange = (e: any) => {
         setFormValues({
             ...formValues, [e.target.name]: e.target.value
         })
@@ -33,7 +39,21 @@ const FormExpense = (props: Props) => {
     }
 
     const handleSubmit = (e: any) => {
-        e.preventDeafult()
+        e.preventDefault()
+
+        if (title === '' || paidBy === '' || paidWith === '' || amount === '') {
+            return alert('Please, make sure all fields are filled in correctly')
+        }
+
+        addExpense(title, paidBy, paidWith, amount).then(() => {
+            console.log('Submitted!');
+        }).catch((error: any) => {
+            console.log(error);
+        })
+
+        clearForm(e)
+
+
     }
 
     return (
@@ -52,7 +72,7 @@ const FormExpense = (props: Props) => {
                     <option value="Cash">Cash</option>
                     <option value="Card">Card</option>
                 </select>
-                <button className="btn2">Save</button>
+                <button className="btn2" type='submit'>Save</button>
                 <button className="btn3" onClick={(e) => clearForm(e)}>Clear Form</button>
             </form>
         </div>

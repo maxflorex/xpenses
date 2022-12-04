@@ -1,6 +1,3 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-
 interface ItemProps {
     id: string
     title: string
@@ -11,10 +8,17 @@ interface ItemProps {
 
 interface ShowModalProps {
     setShowDelete: any
+    setShowEdit: any
+    setSelected: any
 }
 
 
 const TableRow = (props: (ItemProps & ShowModalProps)) => {
+
+    const handleEdit = () => {
+        props.setShowEdit(true)
+        props.setSelected(props)
+    }
 
     return (
         <>
@@ -25,7 +29,7 @@ const TableRow = (props: (ItemProps & ShowModalProps)) => {
             <td>
                 <div className="row">
                     <i className="ri-delete-bin-5-line actions" onClick={() => props.setShowDelete(true)}></i>
-                    <Link to={props.id} className="ri-edit-2-line actions"></Link>
+                    <i className="ri-edit-2-line actions" onClick={handleEdit}></i>
                 </div>
             </td>
         </>

@@ -49,7 +49,7 @@ const RootQuery = new GraphQLObjectType({
                 return Expenses.findById(args.id)
             }
         },
-        // // BALANCE & BALANCES
+        // BALANCE & BALANCES
         balances: {
             type: new GraphQLList(BalanceType),
             resolve(parent, args) {
@@ -146,7 +146,7 @@ const mutation = new GraphQLObjectType({
 
         // UPDATE EXPENCE
 
-        updateExpence: {
+        updateExpense: {
             type: ExpensesType,
             args: {
                 id: { type: new GraphQLNonNull(GraphQLID) },
@@ -181,7 +181,7 @@ const mutation = new GraphQLObjectType({
         },
 
         // UPDATE BALANCE
-        
+
         updateBalance: {
             type: BalanceType,
             args: {
