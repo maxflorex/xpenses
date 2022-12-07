@@ -1,12 +1,37 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { useStytch } from '@stytch/react'
+import { logout } from '../redux/slices/userSlice'
 
-type Props = {}
+const Navigation = () => {
+    const [showModal, setShowModal] = useState(false)
+	const username: any = useSelector((state: any) => state.userState.value.username)
 
-const Navigation = (props: Props) => {
+    const stytchClient = useStytch()
+    const dispatch = useDispatch()
 
-    const username = useSelector((state: any) => state.user.value.username)
+    // LOGOUT
+
+    const logOut = (e: any) => {
+
+        e.preventDefault()
+
+        stytchClient.session.revoke().then(() => {
+            dispatch(logout())
+        }).catch((err: any) => {
+            console.log(err);
+        })
+    }
+
+    const show = () => {
+        setShowModal(true)
+
+        setTimeout(() => {
+            setShowModal(false)
+        }, 5000)
+
+    }
 
     return (
         <div className='full'>
@@ -15,8 +40,17 @@ const Navigation = (props: Props) => {
                 <i className="ri-money-dollar-circle-fill"></i>
             </a>
             <div className="row">
-                <h4>{username !== '' ? username : 'Login'}</h4>
-                <i className="ri-user-fill"></i>
+                <div className='row' onClick={() => setShowModal(!showModal)} style={{ cursor: 'pointer' }}>
+                    <h4 onMouseEnter={show}>{username !== '' ? username : 'Login'}</h4>
+                    <i className="ri-user-fill"></i>
+                </div>
+
+                {/* MODAL */}
+                {showModal &&
+                    <div className='balance signout-modal'>
+                        <button className='btn' onClick={logOut}>Sign Out</button>
+                    </div>
+                }
             </div>
         </div>
     )

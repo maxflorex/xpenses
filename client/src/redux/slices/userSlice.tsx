@@ -1,5 +1,6 @@
-import { configureStore, createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit"
 
+// STATE TYPESCRIPT
 interface UserStateValue {
     username: string
 }
@@ -8,9 +9,12 @@ interface UserState {
     value: UserStateValue
 }
 
+// DEFINE INITIAL STATE
 const initialState = { value: { username: '' } } as UserState
 
-const userSlice = createSlice({
+
+// CREATE SLICE
+export const userSlice = createSlice({
     name: "user",
     initialState: initialState,
     reducers: {
@@ -25,10 +29,3 @@ const userSlice = createSlice({
 })
 
 export const { login, logout } = userSlice.actions
-
-export const store = configureStore({
-    // REDUCER IS A FUNCTION
-    reducer: {
-        user: userSlice.reducer
-    }
-}) 
