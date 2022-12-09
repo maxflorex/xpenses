@@ -1,20 +1,47 @@
-import React from 'react'
+import { useQuery } from '@apollo/client'
+import { useEffect, useState } from 'react'
+import { GET_EXPENSES } from '../api/queries/expenses.queries'
 
-type Props = {}
+type Total = {
+    total: Object
+}
 
-const BalanceCard = (props: Props) => {
+const BalanceCard = () => {
+    const [total, setTotal] = useState<Total[]>([])
+    const { loading, error, data } = useQuery(GET_EXPENSES)
+
+    useEffect(() => {
+        if (data) {
+            data.expenses.forEach((item: any) => {
+                setTotal(arr => [...arr, item.amount])
+            })
+        }
+    }, [data])
+
+
+    console.log(total);
+
+
     return (
-        <div className="balance">
-            <div>
-                <h4>Bank Balance</h4>
-                <h2>$56,000.00</h2>
+        <div className="row">
+            <div className="balance">
+                <div>
+                    <h4>Total Spent</h4>
+                    <h2>$56,000.00</h2>
+                </div>
+                <div>
+                    <h4>Remaining Balance</h4>
+                    <h2>$56,000.00</h2>
+                </div>
             </div>
-            <div>
-                <h4>Expected Balance</h4>
-                <h2>$56,060.00</h2>
-            </div>
-            <div>
-                <button className='btn'>Update Balance</button>
+            <div className="balance">
+                <div>
+                    <h4>Expected Balance</h4>
+                    <h2>$56,060.00</h2>
+                </div>
+                <div>
+                    <button className='btn'>Update Balance</button>
+                </div>
             </div>
         </div>
     )

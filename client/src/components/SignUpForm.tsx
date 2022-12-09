@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { useStytch } from '@stytch/react'
+import { useDispatch } from 'react-redux'
+import { login } from '../redux/slices/userSlice'
 
 type Props = {
     setShow: any
@@ -12,8 +14,27 @@ const SignUpForm = ({ setShow }: Props) => {
         password: '',
         password2: ''
     })
+
     const { email, password, password2 } = newUser
     const stytchClient = useStytch()
+    const dispatch = useDispatch()
+
+
+    // LOGIN
+    const signIn = (e: any) => {
+        e.preventDefault()
+        stytchClient.passwords
+            .authenticate({ email, password, session_duration_minutes: 60 })
+            .then((res: any) => {
+                console.log(`Welcome, ${email}!`)
+            })
+            .then(() => {
+                dispatch(login({ username: email }))
+            })
+            .catch((err: any) => {
+                console.log('Err:', err);
+            })
+    }
 
 
     // HANDLE CHANGE
@@ -23,9 +44,9 @@ const SignUpForm = ({ setShow }: Props) => {
         })
     }
 
+
     // SIGNUP
     const signUp = (e: any) => {
-
         e.preventDefault()
 
         stytchClient.passwords
@@ -35,7 +56,6 @@ const SignUpForm = ({ setShow }: Props) => {
             })
             .catch((err: any) => {
                 console.log('Err:', err);
-
             })
 
         if (password === password2) {
@@ -43,6 +63,10 @@ const SignUpForm = ({ setShow }: Props) => {
                 email,
                 password,
                 session_duration_minutes: 60
+            }).then(() => {
+                signIn(e)
+            }).catch((err) => {
+                console.log(err);
             })
         } else {
             alert('Passwords do not match')

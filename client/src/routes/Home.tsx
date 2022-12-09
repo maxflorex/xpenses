@@ -9,14 +9,11 @@ import Navigation from '../components/Navigation'
 
 const Home = () => {
 
-	const [isLogged, setIsLogged] = useState<boolean>(true)
+	const [isLogged, setIsLogged] = useState<boolean>(false)
 	const username: any = useSelector((state: any) => state.userState.value.username)
 
-	console.log(username);
-
-
 	useEffect(() => {
-		if (username) {
+		if (username !== '') {
 			setIsLogged(true)
 		} else {
 			setIsLogged(false)

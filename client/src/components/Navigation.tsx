@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
 import { useStytch } from '@stytch/react'
 import { logout } from '../redux/slices/userSlice'
 
 const Navigation = () => {
     const [showModal, setShowModal] = useState(false)
-	const username: any = useSelector((state: any) => state.userState.value.username)
+    const username: any = useSelector((state: any) => state.userState.value.username)
 
     const stytchClient = useStytch()
     const dispatch = useDispatch()
@@ -18,10 +17,12 @@ const Navigation = () => {
         e.preventDefault()
 
         stytchClient.session.revoke().then(() => {
-            dispatch(logout())
+            console.log("See you later!");
         }).catch((err: any) => {
             console.log(err);
         })
+
+        dispatch(logout())
     }
 
     const show = () => {
