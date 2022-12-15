@@ -12,11 +12,7 @@ export const cache: any = new InMemoryCache({
                         return incoming
                     }
                 },
-                balances: {
-                    merge(existing, incoming) {
-                        return incoming
-                    }
-                },
+
             }
         }
     }

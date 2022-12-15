@@ -1,7 +1,10 @@
 const Expenses = require('../models/Expenses')
-const Balances = require('../models/Balances')
 
-const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLSchema, GraphQLList, GraphQLNonNull, GraphQLEnumType } = require('graphql')
+const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLSchema, GraphQLList, GraphQLNonNull, GraphQLEnumType, GraphQLFloat, GraphQLInt, GraphQLInputObjectType } = require('graphql')
+const Users = require('../models/Users')
+
+
+// ! DEFINE TYPES FOR USERS AND SUBDOCUMENTS
 
 
 // EXPENSES TYPES
@@ -11,197 +14,219 @@ const ExpensesType = new GraphQLObjectType({
         id: { type: GraphQLID },
         title: { type: GraphQLString },
         paidWith: { type: GraphQLString },
-        paidBy: {
-            type: GraphQLString
-        },
-        amount: {
-            type: GraphQLString
-        }
+        paidBy: { type: GraphQLString },
+        amount: { type: GraphQLString }
     })
 })
 
 
-// BALANCE TYPES
-const BalanceType = new GraphQLObjectType({
-    name: 'Balance',
+// USER TYPES
+const UsersType = new GraphQLObjectType({
+    name: 'Users',
     fields: () => ({
         id: { type: GraphQLID },
-        bankBalance: { type: GraphQLString }
+        username: { type: GraphQLString },
+        email: { type: GraphQLString },
+        balance: { type: GraphQLFloat },
+        expenses: { type: new GraphQLList(ExpensesType) }
     })
 })
 
 
-// DEFINE ROOT QUERIES
+
+// ! DEFINE INPUT TYPE FOR DATA ARGUMENTS
+
+// USER INPUTS
+const UserInputType = new GraphQLInputObjectType({
+    name: 'UserInput',
+    fields: () => ({
+        username: { type: GraphQLString },
+        email: { type: GraphQLString },
+        balance: { type: GraphQLFloat },
+        expenses: { type: ExpensesInputType },
+        updateExpense: { type: ExpensesUpdateInputType }
+    })
+})
+
+// EXPENSE INPUTS
+const ExpensesInputType = new GraphQLInputObjectType({
+    name: 'ExpensesInput',
+    fields: () => ({
+        title: {
+            type: GraphQLString
+        },
+        paidWith: { type: GraphQLString },
+        paidBy: { type: GraphQLString },
+        amount: { type: GraphQLString }
+    })
+})
+
+// UPDATE EXPENSE INPUTS
+const ExpensesUpdateInputType = new GraphQLInputObjectType({
+    name: 'ExpensesUpdateInput',
+    fields: () => ({
+        title: {
+            type: GraphQLString
+        },
+        paidWith: { type: GraphQLString },
+        paidBy: { type: GraphQLString },
+        amount: { type: GraphQLString }
+    })
+})
+
+
+
+// ! ROOT QUERIES
+
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
     fields: {
-        // EXPENSE & EXPENSES
-        expenses: {
-            type: new GraphQLList(ExpensesType),
+        users: {
+            type: new GraphQLList(UsersType),
             resolve(parent, args) {
-                return Expenses.find(args.id)
+                return Users.find()
             }
         },
-        expense: {
-            type: ExpensesType,
+        user: {
+            type: UsersType,
             args: { id: { type: GraphQLID } },
             resolve(parent, args) {
-                return Expenses.findById(args.id)
-            }
-        },
-        // BALANCE & BALANCES
-        balances: {
-            type: new GraphQLList(BalanceType),
-            resolve(parent, args) {
-                return Balances.find(args.id)
-            }
-        },
-        balance: {
-            type: BalanceType,
-            args: { id: { type: GraphQLID } },
-            resolve(parent, args) {
-                return Balances.findById(args.id)
+                return Users.findById(args.id)
             }
         }
-
     }
 })
 
 
-// * MUTATIONS
+// ! MUTATIONS
 
 
 const mutation = new GraphQLObjectType({
     name: 'Mutation',
     fields: {
 
-        // ADD EXPENSE
+
+        // ? ADD USER
+
+        addUser: {
+            type: UsersType,
+            args: {
+                username: { type: GraphQLString },
+                email: { type: GraphQLString },
+            },
+            resolve(parent, args) {
+                const newUser = new Users({
+                    username: args.username,
+                    email: args.email,
+                })
+                return newUser.save()
+            }
+        },
+
+
+        // ? UPDATE USER
+
+        updateUser: {
+            type: UsersType,
+            args: {
+                id: { type: new GraphQLNonNull(GraphQLID) },
+                data: { type: UserInputType }
+            },
+            resolve(parent, args) {
+                return Users.findByIdAndUpdate(args.id, args.data)
+            }
+        },
+
+
+        // ? DELETE USER
+
+        deleteUser: {
+            type: UsersType,
+            args: {
+                id: { type: new GraphQLNonNull(GraphQLID) }
+            },
+            resolve(parent, args) {
+                return Users.findByIdAndRemove(args.id)
+            }
+        },
+
+
+        // ? ADD EXPENSE
 
         addExpense: {
-            type: ExpensesType,
-            args: {
-                title: { type: GraphQLString },
-                paidWith: {
-                    type: new GraphQLEnumType({
-                        name: 'PaidIn',
-                        values: {
-                            'Cash': { value: 'Cash' },
-                            'Card': { value: 'Card' },
-                        }
-                    }),
-                    defaultValue: 'Cash'
-                },
-                paidBy: { type: GraphQLString },
-                amount: { type: GraphQLString },
-            },
-            resolve(parent, args) {
-                const expense = new Expenses({
-                    title: args.title,
-                    paidWith: args.paidWith,
-                    paidBy: args.paidBy,
-                    amount: args.amount
-                });
-                return expense.save()
-            }
-        },
-
-        // ADD BALANCE
-
-        addBalance: {
-            type: BalanceType,
-            args: {
-                bankBalance: { type: GraphQLString },
-            },
-            resolve(parent, args) {
-                const balance = new Balances({
-                    bankBalance: args.bankBalance
-                });
-                return balance.save()
-            }
-        },
-
-        // DELETE EXPENSE
-
-        deleteExpense: {
-            type: ExpensesType,
-            args: {
-                id: { type: new GraphQLNonNull(GraphQLID) }
-            },
-            resolve(parent, args) {
-                return Expenses.findByIdAndRemove(args.id)
-            }
-        },
-
-        // DELETE BALANCE
-
-        deleteBalance: {
-            type: BalanceType,
-            args: {
-                id: { type: new GraphQLNonNull(GraphQLID) }
-            },
-            resolve(parent, args) {
-                return Balances.findByIdAndRemove(args.id)
-            }
-        },
-
-        // UPDATE EXPENCE
-
-        updateExpense: {
-            type: ExpensesType,
+            type: UsersType,
             args: {
                 id: { type: new GraphQLNonNull(GraphQLID) },
-                title: { type: GraphQLString },
-                paidWith: {
-                    type: new GraphQLEnumType({
-                        name: 'PaidWith',
-                        values: {
-                            'Cash': { value: 'Cash' },
-                            'Card': { value: 'Card' },
-                        }
-                    }),
-                    defaultValue: 'Cash'
-                },
-                paidBy: { type: GraphQLString },
-                amount: { type: GraphQLString },
+                data: { type: UserInputType }
             },
             resolve(parent, args) {
-                return Expenses.findByIdAndUpdate(
-                    args.id, {
-                    $set: {
-                        title: args.title,
-                        paidWith: args.paidWith,
-                        paidBy: args.paidBy,
-                        amount: args.amount
+                return Users.findByIdAndUpdate(args.id, {
+                    $push: {
+                        expenses: {
+                            title: args.data.expenses.title,
+                            paidBy: args.data.expenses.paidBy,
+                            paidWith: args.data.expenses.paidWith,
+                            amount: args.data.expenses.amount
+                        }
                     }
-                },
-                    // IF NOT EXIST, CREATE
-                    { new: true }
-                )
+                }, { new: true })
             }
         },
 
-        // UPDATE BALANCE
 
-        updateBalance: {
-            type: BalanceType,
+        // ? REMOVE EXPENSE
+
+        removeExpense: {
+            type: UsersType,
             args: {
                 id: { type: new GraphQLNonNull(GraphQLID) },
-                bankBalance: { type: GraphQLString }
+                data: { type: UserInputType }
             },
             resolve(parent, args) {
-                return Balances.findByIdAndUpdate(
-                    args.id, {
-                    $set: {
-                        bankBalance: args.bankBalance
+                return Users.findByIdAndUpdate(args.id, {
+                    $pull: {
+                        expenses: {
+                            title: args.data.expenses.title,
+                        }
                     }
-                },
-                    // IF NOT EXIST, CREATE
-                    { new: true }
-                )
+                })
             }
-        }
+        },
 
 
+        // UPDATE EXPENSE
+
+        // updateExpense: {
+        //     type: UsersType,
+        //     args: {
+        //         id: { type: new GraphQLNonNull(GraphQLID) },
+        //         data: { type: UserInputType }
+        //     },
+        //     resolve(parent, args) {
+
+
+        //         const User = Users.findById(args.id)
+
+        //         return User.updateOne(
+        //             {
+        //                 expenses: {
+        //                     title: args.data.expenses.title
+        //                 }
+        //             },
+        //             {
+        //                 expenses: {
+        //                     title: args.data.updateExpense.title,
+        //                     paidBy: args.data.updateExpense.paidBy,
+        //                     paidWith: args.data.updateExpense.paidWith,
+        //                     amount: args.data.updateExpense.amount
+        //                 }
+        //             }
+        //         )
+
+        //     }
+        // }
+
+        // - - - - - - - - - - - - - 
     }
 })
 
