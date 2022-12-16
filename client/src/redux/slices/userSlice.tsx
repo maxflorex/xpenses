@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit"
 
 // STATE TYPESCRIPT
 interface UserStateValue {
-    username: string
+    username: string,
+    email: string
 }
 
 interface UserState {
@@ -10,7 +11,7 @@ interface UserState {
 }
 
 // DEFINE INITIAL STATE
-const initialState = { value: { username: '' } } as UserState
+const initialState = { value: { username: '', email: '' } } as UserState
 
 
 // CREATE SLICE

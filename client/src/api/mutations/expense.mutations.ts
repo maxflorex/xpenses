@@ -1,59 +1,98 @@
 import { gql } from "@apollo/client";
 
 
+const ADD_USER = gql`
+    mutation AddUser(
+        $username: String!
+        $email: String!
+    ) {
+        addUser (
+            username: $username
+            email: $email
+        ) {
+            id
+            username
+            email
+        }
+    }
+`
+
+const UPDATE_USER = gql`
+    mutation UpdateUser(
+        $id: ID!
+        $username: String!
+        $email: String!
+        $balance: Number!
+    ) {
+        updateUser(
+            id: $id
+            username: $username
+            email: $email
+            balance: $balance
+        ) {
+            id
+            username
+            email
+            balance
+        }
+    }
+`
+
+const DELETE_USER = gql`
+    mutation DeleteUser(
+         $id: ID!
+    ) {
+        deleteUser(
+            id: $id
+        ) {
+            id
+            username
+            email
+            amount
+        }
+    }
+`
+
 
 const ADD_EXPENSE = gql`
     mutation AddExpense(
-        $title: String!
-        # SELECT UNIQUE TYPE CREATED IN SCHEMA 
-        $paidWith: PaidIn!
-        $paidBy: String!
-        $amount: String!
-    ) {
-        addExpense (
-        title: $title
-        paidWith: $paidWith
-        paidBy: $paidBy
-        amount: $amount
-        )  {
-            title
-            paidBy
-            paidWith
-            amount
-        }
-    }
-`
-
-const UPDATE_EXPENSE = gql`
-    mutation UpdateExpense(
         $id: ID!
-        $title: String!
-        # SELECT UNIQUE TYPE CREATED IN SCHEMA 
-        $paidWith: PaidWith!
-        $paidBy: String!
-        $amount: String!
+        $expenses: Expenses!
     ) {
-        updateExpense (
+        addExpense(
             id: $id
-            title: $title
-            paidWith: $paidWith
-            paidBy: $paidBy
-            amount: $amount
+            expenses: $expenses
         ) {
-            title
-            paidBy
-            paidWith
-            amount
+            id
+            expenses {
+                title
+                amount
+                paidBy
+                paidWith
+            }
         }
     }
 `
 
-const DELETE_EXPENSE = gql`
-    mutation DeleteExpense( $id: ID! ) {
-            deleteExpense ( id: $id ) {
-                id
+const REMOVE_EXPENSE = gql`
+    mutation(
+        $id: ID!
+        $expenses: Expenses!
+    ) {
+        removeExpense(
+            id: $id
+            expenses: $expenses
+        ) {
+            id
+            expenses {
+                title
+                amount
+                paidBy
+                paidWith
+            }
         }
-     }
+    }
 `
 
-export { UPDATE_EXPENSE, ADD_EXPENSE, DELETE_EXPENSE }
+
+export { ADD_USER, UPDATE_USER, DELETE_USER, ADD_EXPENSE, REMOVE_EXPENSE }

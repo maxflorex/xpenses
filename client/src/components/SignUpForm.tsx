@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import { useStytch } from '@stytch/react'
 import { useDispatch } from 'react-redux'
 import { login } from '../redux/slices/userSlice'
+import { useMutation } from '@apollo/client'
+import { ADD_USER } from '../api/mutations/expense.mutations'
+import { GET_USERS } from '../api/queries/expenses.queries'
 
 type Props = {
     setShow: any
@@ -10,12 +13,13 @@ type Props = {
 const SignUpForm = ({ setShow }: Props) => {
 
     const [newUser, setNewUser] = useState({
+        username: '',
         email: '',
         password: '',
         password2: ''
     })
 
-    const { email, password, password2 } = newUser
+    const { username, email, password, password2 } = newUser
     const stytchClient = useStytch()
     const dispatch = useDispatch()
 
@@ -26,10 +30,10 @@ const SignUpForm = ({ setShow }: Props) => {
         stytchClient.passwords
             .authenticate({ email, password, session_duration_minutes: 60 })
             .then((res: any) => {
-                console.log(`Welcome, ${email}!`)
+                console.log(`Welcome, ${username}!`)
             })
             .then(() => {
-                dispatch(login({ username: email }))
+                dispatch(login({ username: username, email: email }))
             })
             .catch((err: any) => {
                 console.log('Err:', err);
@@ -44,16 +48,19 @@ const SignUpForm = ({ setShow }: Props) => {
         })
     }
 
+    // CREATE USER 
+    const [addUser]: any = useMutation(ADD_USER, {
+        variables: { username, email },
+        refetchQueries: [{ query: GET_USERS }]
+    })
 
+      
     // SIGNUP
     const signUp = (e: any) => {
         e.preventDefault()
 
         stytchClient.passwords
             .strengthCheck({ email, password })
-            .then((res: any) => {
-                console.log('Success', res)
-            })
             .catch((err: any) => {
                 console.log('Err:', err);
             })
@@ -65,6 +72,8 @@ const SignUpForm = ({ setShow }: Props) => {
                 session_duration_minutes: 60
             }).then(() => {
                 signIn(e)
+            }).then(() => {
+                addUser(username, email)
             }).catch((err) => {
                 console.log(err);
             })
@@ -73,11 +82,16 @@ const SignUpForm = ({ setShow }: Props) => {
         }
     }
 
+
     return (
         <form onSubmit={signUp} className='login-form'>
             <h2>Sign Up</h2>
             <label htmlFor="">Username</label>
-            <input type="text" name='email' value={email} placeholder='Enter your username...'
+            <input type="text" name='username' value={username} placeholder='Enter your username...'
+                onChange={handleChange}
+            />
+            <label htmlFor="">Email</label>
+            <input type="email" name='email' value={email} placeholder='Enter your email...'
                 onChange={handleChange}
             />
             <label htmlFor="">Password</label>

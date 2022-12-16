@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { useEffect, useState } from 'react'
-import { GET_EXPENSES } from '../api/queries/expenses.queries'
+import { GET_USERS } from '../api/queries/expenses.queries'
 
 type Total = {
     total: Object
@@ -8,19 +8,7 @@ type Total = {
 
 const BalanceCard = () => {
     const [total, setTotal] = useState<Total[]>([])
-    const { loading, error, data } = useQuery(GET_EXPENSES)
-
-    useEffect(() => {
-        if (data) {
-            data.expenses.forEach((item: any) => {
-                setTotal(arr => [...arr, item.amount])
-            })
-        }
-    }, [data])
-
-
-    console.log(total);
-
+    const { loading, error, data } = useQuery(GET_USERS)
 
     return (
         <div className="row">
