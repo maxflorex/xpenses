@@ -10,8 +10,6 @@ interface Props {
 
 const LoginForm = ({ setShow }: Props) => {
 
-
-
     const [newUser, setNewUser] = useState({
         email: '',
         password: ''
@@ -39,14 +37,14 @@ const LoginForm = ({ setShow }: Props) => {
         stytchClient.passwords
             .authenticate({ email, password, session_duration_minutes: 60 })
             .then((res: any) => {
-                console.log('Success', res)
+                return null
             })
             .then(() => {
                 dispatch(login({ username: email }))
             })
             .catch((err: any) => {
-                console.log('Err:', err);
-
+                alert('Oops! Something went wrong. Try again 🤞')
+                console.log(err);
             })
     }
 

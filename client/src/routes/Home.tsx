@@ -14,7 +14,11 @@ const Home = () => {
 	const [isLogged, setIsLogged] = useState<boolean>(false)
 	const [currentUser, setCurrentUser] = useState({})
 	const username: any = useSelector((state: any) => state.userState.value.username)
+	// const myRes: any = useSelector((state: any) => state.stytchState.value)
 	const { loading, error, data } = useQuery(GET_USERS)
+
+	// console.log(myRes);
+	
 
 	useEffect(() => {
 
@@ -33,9 +37,6 @@ const Home = () => {
 
 		}
 	}, [username, data])
-
-	console.log(currentUser);
-
 
 
 	if (!isLogged) {

@@ -30,15 +30,16 @@ const SignUpForm = ({ setShow }: Props) => {
         stytchClient.passwords
             .authenticate({ email, password, session_duration_minutes: 60 })
             .then((res: any) => {
-                console.log(`Welcome, ${username}!`)
+                console.log(res)
             })
             .then(() => {
                 dispatch(login({ username: username, email: email }))
             })
             .catch((err: any) => {
-                console.log('Err:', err);
+                console.log('Error', err);
             })
     }
+
 
 
     // HANDLE CHANGE
@@ -54,7 +55,7 @@ const SignUpForm = ({ setShow }: Props) => {
         refetchQueries: [{ query: GET_USERS }]
     })
 
-      
+
     // SIGNUP
     const signUp = (e: any) => {
         e.preventDefault()
@@ -72,8 +73,8 @@ const SignUpForm = ({ setShow }: Props) => {
                 session_duration_minutes: 60
             }).then(() => {
                 signIn(e)
-            }).then(() => {
-                addUser(username, email)
+                // }).then(() => {
+                //     addUser(username, email)
             }).catch((err) => {
                 console.log(err);
             })
