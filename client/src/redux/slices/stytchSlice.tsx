@@ -19,8 +19,11 @@ export const stytchSlice = createSlice({
     reducers: {
         res: (state, action) => {
             state.value = action.payload
+        },
+        clean: (state) => {
+            state.value = InitialState.value
         }
     }
 })
 
-export const { res } = stytchSlice.actions
+export const { res, clean } = stytchSlice.actions

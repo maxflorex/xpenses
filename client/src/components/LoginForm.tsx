@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { useStytch } from '@stytch/react'
 import { Link } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../redux/slices/userSlice'
+import { res } from '../redux/slices/stytchSlice'
 
 interface Props {
     setShow: any
@@ -17,6 +18,9 @@ const LoginForm = ({ setShow }: Props) => {
     const { email, password } = newUser
     const stytchClient = useStytch()
     const dispatch = useDispatch()
+    const myRes: any = useSelector((state: any) => state.stytchState.value)
+
+
 
 
     // HANDLE CHANGE
@@ -36,8 +40,9 @@ const LoginForm = ({ setShow }: Props) => {
 
         stytchClient.passwords
             .authenticate({ email, password, session_duration_minutes: 60 })
-            .then((res: any) => {
-                return null
+            .then((response: any) => {
+                let resp = JSON.stringify(response)
+                dispatch(res(JSON.parse(resp)))
             })
             .then(() => {
                 dispatch(login({ username: email }))

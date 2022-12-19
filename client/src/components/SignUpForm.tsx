@@ -5,6 +5,7 @@ import { login } from '../redux/slices/userSlice'
 import { useMutation } from '@apollo/client'
 import { ADD_USER } from '../api/mutations/expense.mutations'
 import { GET_USERS } from '../api/queries/expenses.queries'
+import { res } from '../redux/slices/stytchSlice'
 
 type Props = {
     setShow: any
@@ -29,8 +30,9 @@ const SignUpForm = ({ setShow }: Props) => {
         e.preventDefault()
         stytchClient.passwords
             .authenticate({ email, password, session_duration_minutes: 60 })
-            .then((res: any) => {
-                console.log(res)
+            .then((response: any) => {
+                let resp = JSON.stringify(response)
+                dispatch(res(JSON.parse(resp)))
             })
             .then(() => {
                 dispatch(login({ username: username, email: email }))
@@ -39,8 +41,6 @@ const SignUpForm = ({ setShow }: Props) => {
                 console.log('Error', err);
             })
     }
-
-
 
     // HANDLE CHANGE
     const handleChange = (e: any) => {
@@ -54,7 +54,6 @@ const SignUpForm = ({ setShow }: Props) => {
         variables: { username, email },
         refetchQueries: [{ query: GET_USERS }]
     })
-
 
     // SIGNUP
     const signUp = (e: any) => {

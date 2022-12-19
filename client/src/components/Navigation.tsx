@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useStytch } from '@stytch/react'
 import { logout } from '../redux/slices/userSlice'
+import { clean } from '../redux/slices/stytchSlice'
 
 const Navigation = () => {
     const [showModal, setShowModal] = useState(false)
@@ -11,7 +12,6 @@ const Navigation = () => {
     const dispatch = useDispatch()
 
     // LOGOUT
-
     const logOut = (e: any) => {
 
         e.preventDefault()
@@ -21,10 +21,11 @@ const Navigation = () => {
         }).catch((err: any) => {
             console.log(err);
         })
-
         dispatch(logout())
+        dispatch(clean())
     }
 
+    // SHOW OR HIDE LOGOUT MODAL
     const show = () => {
         setShowModal(true)
 
