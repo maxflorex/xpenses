@@ -1,9 +1,13 @@
 import { useMutation } from '@apollo/client'
 import React, { useState } from 'react'
-import { ADD_EXPENSE } from '../api/mutations/expense.mutations'
-import { GET_EXPENSES } from '../api/queries/expenses.queries'
+import { useSelector } from 'react-redux'
+// import { ADD_EXPENSE } from '../api/mutations/expense.mutations'
+// import { GET_USERS } from '../api/queries/expenses.queries'
 
 const FormExpense = () => {
+
+    // const ID = currentUser.id
+
     const [formValues, setFormValues] = useState({
         title: '',
         paidBy: '',
@@ -14,17 +18,19 @@ const FormExpense = () => {
     const { title, paidBy, paidWith, amount } = formValues
 
     // ADD EXPENSE
-    const [addExpense]: any = useMutation(ADD_EXPENSE, {
-        variables: { title, paidBy, paidWith, amount },
-        refetchQueries: [{ query: GET_EXPENSES }]
-    })
+    // const [addExpense]: any = useMutation(ADD_EXPENSE, {
+    //     variables: { id: ID, formValues },
+    //     refetchQueries: [{ query: GET_USERS }]
+    // })
 
+    // ONCHANGE HANDLER
     const handleChange = (e: any) => {
         setFormValues({
             ...formValues, [e.target.name]: e.target.value
         })
     }
 
+    // CLEANER
     const clearForm = (e: any) => {
 
         e.preventDefault()
@@ -38,22 +44,24 @@ const FormExpense = () => {
 
     }
 
+    // SUBMIT FUNCTION
     const handleSubmit = (e: any) => {
         e.preventDefault()
 
+        // EMPTY FIELD CHECKER
         if (title === '' || paidBy === '' || paidWith === '' || amount === '') {
             return alert('Please, make sure all fields are filled in correctly')
         }
 
-        addExpense(title, paidBy, paidWith, amount).then(() => {
-            console.log('Submitted!');
-        }).catch((error: any) => {
-            console.log(error);
-        })
+        // SUBMIT EXPENSE
+        // addExpense(formValues).then(() => {
+        //     console.log('Submitted!');
+        // }).catch((error: any) => {
+        //     console.log(error);
+        // })
 
+        // CLEAR FORM
         clearForm(e)
-
-
     }
 
     return (

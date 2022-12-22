@@ -7,20 +7,22 @@ import { combineReducers } from '@reduxjs/toolkit'
 import { persistReducer } from 'redux-persist'
 import thunk from 'redux-thunk'
 import { stytchSlice } from './slices/stytchSlice'
+import { allUsersSlice } from './slices/allUsersSlice'
 
 
 // PERSIST CONFIG
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['userState', 'stytchState']
+    whitelist: ['userState', 'stytchState', 'allUsersState']
 }
 
 
 // COMBINE REDUCERS
 const rootReducer = combineReducers({
     userState: userSlice.reducer,
-    stytchState: stytchSlice.reducer
+    stytchState: stytchSlice.reducer,
+    allUsersState: allUsersSlice.reducer
 })
 
 export type RootState = ReturnType<typeof rootReducer>

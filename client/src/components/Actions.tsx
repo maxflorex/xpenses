@@ -3,7 +3,7 @@ import FormExpense from './FormExpense'
 
 type SortBy = {
     sortBy: any,
-    setSortBy: any
+    setSortBy: any,
 }
 
 const Actions = ({ sortBy, setSortBy }: SortBy) => {

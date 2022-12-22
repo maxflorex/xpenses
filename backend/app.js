@@ -5,6 +5,7 @@ require('dotenv').config()
 const { graphqlHTTP } = require('express-graphql')
 const mongoConnect = require('./db')
 const schema = require('./schema/schema')
+const session = require('express-session');
 
 const port = process.env.PORT || 5000
 
@@ -14,6 +15,13 @@ mongoConnect()
 // START APP
 const app = express()
 app.use(cors())
+
+// SESSION
+app.use(session({
+    secret: "add a random secret string here",
+    resave: false,
+    saveUninitialized: true
+}));
 
 // GRAPHQL PLAYGROUND
 app.use('/graphql', graphqlHTTP({

@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const Expenses = require('./Expenses')
 
 const UserSchema = new mongoose.Schema({
     username: {
@@ -10,11 +9,11 @@ const UserSchema = new mongoose.Schema({
         type: String,
         unique: true
     },
-    expenses: {
-        type: [Expenses.Schema]
-    },
     balance: {
         type: Number
+    },
+    hashedPw: {
+        type: String
     }
 }, { timestamps: true })
 

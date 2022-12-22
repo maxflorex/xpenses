@@ -7,42 +7,49 @@ import ExpensesList from '../components/ExpensesList'
 import Footer from '../components/Footer'
 import Hero from '../components/Hero'
 import Navigation from '../components/Navigation'
+import { cleanUsers, getAllUsers } from '../redux/slices/allUsersSlice'
 
 
 const Home = () => {
 
 	const [isLogged, setIsLogged] = useState<boolean>(false)
-	const [currentUser, setCurrentUser] = useState({})
 	const username: any = useSelector((state: any) => state.userState.value.username)
 	const myRes: any = useSelector((state: any) => state.stytchState.value)
+	const allUsers: any = useSelector((state: any) => state.allUsersState.value)
 	const { loading, error, data } = useQuery(GET_USERS)
-
-
 	const dispatch = useDispatch()
 
-	// CHECK IF LOGGED IN
-	useMemo(() => {
-		if (myRes.user_id) {
+	console.log(username)
+
+
+
+	// * CHECK IF LOGGED IN
+	useEffect(() => {
+		if (username !== '') {
 			setIsLogged(true)
 		} else {
 			setIsLogged(false)
 		}
-	}, [myRes])
+	}, [username])
 
 	// FILTER USER FROM DB
 	useEffect(() => {
 
-		if (data && username !== '') {
-			const filtered = data.users.filter((usr: any) => {
-				return usr.email === username
-			})
-			setCurrentUser(filtered)
+		if (!loading && !error) {
+			dispatch(getAllUsers(data.users))
 		}
 
-	}, [data, username])
+		// 	if (data && username !== '') {
+		// 		const filtered = data.users.filter((usr: any) => {
+		// 			return usr.email === username
+		// 		})
+		// 		setCurrentUser(filtered[0])
+		// 	} 
 
-	console.log(currentUser);
+	}, [])
 
+
+	// AUTO LOGOUT
 
 
 
@@ -54,7 +61,7 @@ const Home = () => {
 		<div style={{ marginBottom: '4rem' }}>
 			<Navigation />
 			<Hero />
-			{/* <ExpensesList /> */}
+			<ExpensesList />
 			<Footer />
 		</div>
 	)

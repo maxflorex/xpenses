@@ -4,11 +4,11 @@ import EditFormModal from './modals/EditFormModal'
 import TableRow from './TableRow'
 
 type Props = {
-    data: any,
+    currentUser: any,
     sortBy: any
 }
 
-const Table = ({ data, sortBy }: Props) => {
+const Table = ({ currentUser, sortBy }: Props) => {
     const [showDelete, setShowDelete] = useState<Boolean>(false)
     const [showEdit, setShowEdit] = useState<Boolean>(false)
     const [selected, setSelected] = useState({})
@@ -16,12 +16,14 @@ const Table = ({ data, sortBy }: Props) => {
     // DESTRUCTURE
     const { name, amount } = sortBy
 
-    // SORT BY NAME
-    const byName = [...data.expenses].sort((a, b) => a.title > b.title ? 1 : -1)
+    // // SORT BY NAME
+    // const byName = [...data.expenses].sort((a, b) => a.title > b.title ? 1 : -1)
 
-    // SORT BY AMOUNT
-    const byAmount = [...data.expenses].sort((a, b) => b.amount - a.amount)
+    // // SORT BY AMOUNT
+    // const byAmount = [...data.expenses].sort((a, b) => b.amount - a.amount)
+
     
+
 
     return (
         <>
@@ -36,6 +38,7 @@ const Table = ({ data, sortBy }: Props) => {
                     </tr>
                 </thead>
                 <tbody>
+                    {/* 
                     {name && byName.map((item, i) => (
                         <tr key={i}>
                             <TableRow {...item} setShowDelete={setShowDelete} setShowEdit={setShowEdit} setSelected={setSelected} />
@@ -45,7 +48,8 @@ const Table = ({ data, sortBy }: Props) => {
                         <tr key={i}>
                             <TableRow {...item} setShowDelete={setShowDelete} setShowEdit={setShowEdit} setSelected={setSelected} />
                         </tr>
-                    ))}
+                    ))} */}
+
                 </tbody>
             </table>
             {showDelete && <DeleteModal setShowDelete={setShowDelete} selected={selected} />}

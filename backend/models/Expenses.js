@@ -14,6 +14,10 @@ const ExpenseSchema = new mongoose.Schema({
     },
     amount: {
         type: Number,
+    },
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Users'
     }
 }, { timestamps: true })
 

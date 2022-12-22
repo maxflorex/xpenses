@@ -1,7 +1,5 @@
 import { useMutation } from '@apollo/client'
 import React, { useState } from 'react'
-import { UPDATE_EXPENSE } from '../api/mutations/expense.mutations'
-import { GET_EXPENSE } from '../api/queries/expenses.queries'
 
 type Props = {
     selected: any,
@@ -38,10 +36,10 @@ const FormEditExpense = ({ selected, setShowEdit }: Props) => {
 
     }
 
-    const [updateExpense]: any = useMutation(UPDATE_EXPENSE, {
-        variables: { id: id, title, paidBy, paidWith, amount },
-        refetchQueries: [{ query: GET_EXPENSE, variables: { id: id } }]
-    })
+    // const [updateExpense]: any = useMutation(UPDATE_EXPENSE, {
+    //     variables: { id: id, title, paidBy, paidWith, amount },
+    //     refetchQueries: [{ query: GET_EXPENSE, variables: { id: id } }]
+    // })
 
     const handleSubmit = (e: any) => {
 
@@ -51,9 +49,9 @@ const FormEditExpense = ({ selected, setShowEdit }: Props) => {
             return alert('Please, make sure all fields are filled in correctly')
         }
 
-        updateExpense(title, paidBy, paidWith, amount).then(() => {
-            console.log('Updated!');
-        })
+        // updateExpense(title, paidBy, paidWith, amount).then(() => {
+        //     console.log('Updated!');
+        // })
 
         setShowEdit(false)
     }

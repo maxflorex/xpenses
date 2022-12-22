@@ -1,7 +1,4 @@
 import { useMutation } from '@apollo/client'
-import React from 'react'
-import { DELETE_EXPENSE } from '../../api/mutations/expense.mutations'
-import { GET_EXPENSES } from '../../api/queries/expenses.queries'
 
 type Props = {
     setShowDelete: any,
@@ -16,25 +13,25 @@ const DeleteModal = ({ setShowDelete, selected }: Props) => {
         }
     }
 
-    const [deleteExpense]: any = useMutation(DELETE_EXPENSE, {
-        variables: { id: selected.id },
-        refetchQueries: [{ query: GET_EXPENSES }]
-    })
+    // const [deleteExpense]: any = useMutation(DELETE_EXPENSE, {
+    //     variables: { id: selected.id },
+    //     refetchQueries: [{ query: GET_EXPENSES }]
+    // })
 
     const handleDelete = (e: any) => {
         e.preventDefault()
 
-        deleteExpense(selected.id).then(() => {
-            console.log('Deleted');
-        }).catch((error: any) => {
-            console.log(error);
-        })
+        // deleteExpense(selected.id).then(() => {
+        //     console.log('Deleted');
+        // }).catch((error: any) => {
+        //     console.log(error);
+        // })
 
         setShowDelete(false)
     }
 
     console.log(selected.id);
-    
+
 
     return (
         <div className='modal close' onClick={exitModal}>

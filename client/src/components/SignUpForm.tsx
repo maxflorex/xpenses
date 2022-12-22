@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useStytch } from '@stytch/react'
 import { useDispatch } from 'react-redux'
 import { login } from '../redux/slices/userSlice'
 import { useMutation } from '@apollo/client'
@@ -21,25 +20,15 @@ const SignUpForm = ({ setShow }: Props) => {
     })
 
     const { username, email, password, password2 } = newUser
-    const stytchClient = useStytch()
     const dispatch = useDispatch()
 
 
     // LOGIN
     const signIn = (e: any) => {
         e.preventDefault()
-        stytchClient.passwords
-            .authenticate({ email, password, session_duration_minutes: 60 })
-            .then((response: any) => {
-                let resp = JSON.stringify(response)
-                dispatch(res(JSON.parse(resp)))
-            })
-            .then(() => {
-                dispatch(login({ username: username, email: email }))
-            })
-            .catch((err: any) => {
-                console.log('Error', err);
-            })
+
+        dispatch(login({ username: username, email: email }))
+        // addUser(username, email)
     }
 
     // HANDLE CHANGE
@@ -50,36 +39,17 @@ const SignUpForm = ({ setShow }: Props) => {
     }
 
     // CREATE USER 
-    const [addUser]: any = useMutation(ADD_USER, {
-        variables: { username, email },
-        refetchQueries: [{ query: GET_USERS }]
-    })
+    // const [addUser]: any = useMutation(ADD_USER, {
+    //     variables: { username, email },
+    //     refetchQueries: [{ query: GET_USERS }]
+    // })
 
     // SIGNUP
     const signUp = (e: any) => {
         e.preventDefault()
 
-        stytchClient.passwords
-            .strengthCheck({ email, password })
-            .catch((err: any) => {
-                console.log('Err:', err);
-            })
+        signIn(e)
 
-        if (password === password2) {
-            stytchClient.passwords.create({
-                email,
-                password,
-                session_duration_minutes: 60
-            }).then(() => {
-                signIn(e)
-                // }).then(() => {
-                //     addUser(username, email)
-            }).catch((err) => {
-                console.log(err);
-            })
-        } else {
-            alert('Passwords do not match')
-        }
     }
 
 

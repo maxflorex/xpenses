@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit"
 // STATE TYPESCRIPT
 interface UserStateValue {
     username: string,
-    email: string
+    email: string,
 }
 
 interface UserState {

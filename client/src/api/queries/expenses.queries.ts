@@ -7,12 +7,6 @@ const GET_USERS = gql`
             username
             email
             balance
-            expenses {
-                title
-                amount
-                paidBy
-                paidWith
-            }
         }
     }
 `
@@ -25,12 +19,6 @@ const GET_USER = gql`
                 username
                 email
                 balance
-                expenses {
-                    title
-                    amount
-                    paidBy
-                    paidWith
-                }
             }
         }
     }

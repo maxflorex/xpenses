@@ -1,26 +1,30 @@
 import { useQuery } from '@apollo/client'
 import { useState } from 'react'
-import { GET_EXPENSES } from '../api/queries/expenses.queries'
+import { useSelector } from 'react-redux'
 import Actions from './Actions'
 import Table from './Table'
 
-type Props = {}
+const ExpensesList = () => {
 
-const ExpensesList = (props: Props) => {
     const [sortBy, setSortBy] = useState({
         name: true,
         amount: false
     })
+    
 
-    const { loading, error, data } = useQuery(GET_EXPENSES)
-
-    if (loading) return null
-    if (error) return <p>Something is not right ☹</p>
+    // const dataLength = Object.keys(currentUser)?.length
+        
 
     return (<>
-        <Actions setSortBy={setSortBy} sortBy={sortBy} />
+        <Actions setSortBy={setSortBy} sortBy={sortBy}/>
         <div className="container">
-            <Table data={data} sortBy={sortBy} />
+            {/* {dataLength > 0 && */}
+                {/* <>
+                    {currentUser?.expenses?.length > 0 ? (
+                        <Table currentUser={currentUser} sortBy={sortBy} />
+                    ) : (<h2>No expenses</h2>)}
+                </> */}
+            {/* } */}
         </div>
     </>
     )
