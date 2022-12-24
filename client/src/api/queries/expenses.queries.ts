@@ -11,17 +11,18 @@ const GET_USERS = gql`
     }
 `
 
-const GET_USER = gql`
-    query getUser($id: ID!) {
-        expense(id: $id) {
-            user(id: $id) {
-                id
-                username
-                email
-                balance
-            }
+const GET_EXPENSES = gql`
+    query Expenses($userId: ID!) {
+        expenses(data: {
+            userId: $userId
+        }) {
+            id
+            title
+            paidBy
+            paidWith
+            amount
         }
     }
 `
 
-export { GET_USERS, GET_USER }
+export { GET_USERS, GET_EXPENSES }

@@ -1,45 +1,42 @@
 import { useMutation } from '@apollo/client'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-// import { ADD_EXPENSE } from '../api/mutations/expense.mutations'
-// import { GET_USERS } from '../api/queries/expenses.queries'
+import { ADD_EXPENSE } from '../api/mutations/expense.mutations'
 
 const FormExpense = () => {
 
-    // const ID = currentUser.id
-
+    const current: any = useSelector((state: any) => state.currentState.value)
     const [formValues, setFormValues] = useState({
         title: '',
         paidBy: '',
         paidWith: '',
-        amount: ''
+        amount: '',
+        userId: current.id
     })
 
-    const { title, paidBy, paidWith, amount } = formValues
+    const { title, paidBy, paidWith, amount, userId } = formValues
 
-    // ADD EXPENSE
-    // const [addExpense]: any = useMutation(ADD_EXPENSE, {
-    //     variables: { id: ID, formValues },
-    //     refetchQueries: [{ query: GET_USERS }]
-    // })
+    // TODO ADD EXPENSE
+    const [addExpense]: any = useMutation(ADD_EXPENSE, {
+        variables: { title, paidWith, paidBy, amount, userId: current?.id }
+    })
 
-    // ONCHANGE HANDLER
+    // ! ONCHANGE HANDLER
     const handleChange = (e: any) => {
         setFormValues({
             ...formValues, [e.target.name]: e.target.value
         })
     }
 
-    // CLEANER
+    // ! CLEANER
     const clearForm = (e: any) => {
-
         e.preventDefault()
-
         setFormValues({
             title: '',
             paidBy: '',
             paidWith: '',
-            amount: ''
+            amount: '',
+            userId: ''
         })
 
     }
@@ -54,11 +51,11 @@ const FormExpense = () => {
         }
 
         // SUBMIT EXPENSE
-        // addExpense(formValues).then(() => {
-        //     console.log('Submitted!');
-        // }).catch((error: any) => {
-        //     console.log(error);
-        // })
+        addExpense(title, paidWith, paidBy, amount, current.id).then((res: any) => {
+            console.log(res);
+        }).catch((error: any) => {
+            console.log(error);
+        })
 
         // CLEAR FORM
         clearForm(e)
@@ -69,7 +66,7 @@ const FormExpense = () => {
             <form onSubmit={handleSubmit}>
                 <h2 className='span-2'>Add New Expense</h2>
                 <input type="text" placeholder='Description...' name='title' onChange={handleChange} value={title} />
-                <input type="text" placeholder='Amount...' name='amount' onChange={handleChange} value={amount} />
+                <input type="number" placeholder='Amount...' name='amount' onChange={handleChange} value={amount} />
                 <select name='paidBy' onChange={handleChange} value={paidBy}>
                     <option hidden={true} >Select a person</option>
                     <option value="Max">Max</option>

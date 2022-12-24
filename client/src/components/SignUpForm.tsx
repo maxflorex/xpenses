@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { login } from '../redux/slices/userSlice'
 import { useMutation } from '@apollo/client'
 import { ADD_USER } from '../api/mutations/expense.mutations'
-import { GET_USERS } from '../api/queries/expenses.queries'
-import { res } from '../redux/slices/stytchSlice'
+import { currentUser } from '../redux/slices/currentUser'
 
 type Props = {
     setShow: any
@@ -15,21 +13,17 @@ const SignUpForm = ({ setShow }: Props) => {
     const [newUser, setNewUser] = useState({
         username: '',
         email: '',
-        password: '',
+        pw: '',
         password2: ''
     })
 
-    const { username, email, password, password2 } = newUser
+    const { username, email, pw, password2 } = newUser
     const dispatch = useDispatch()
 
-
-    // LOGIN
-    const signIn = (e: any) => {
-        e.preventDefault()
-
-        dispatch(login({ username: username, email: email }))
-        // addUser(username, email)
-    }
+    // SIGN UP
+    const [addUser]: any = useMutation(ADD_USER, {
+        variables: { username, email, pw }
+    })
 
     // HANDLE CHANGE
     const handleChange = (e: any) => {
@@ -38,18 +32,21 @@ const SignUpForm = ({ setShow }: Props) => {
         })
     }
 
-    // CREATE USER 
-    // const [addUser]: any = useMutation(ADD_USER, {
-    //     variables: { username, email },
-    //     refetchQueries: [{ query: GET_USERS }]
-    // })
 
     // SIGNUP
     const signUp = (e: any) => {
         e.preventDefault()
 
-        signIn(e)
-
+        if (pw === password2) {
+            addUser(username, email, pw).then((res: any) => {
+                const user = res.data.addUser
+                dispatch(currentUser(user))
+            }).catch(() => {
+                alert('Wrong ID or Password');
+            })
+        } else {
+            alert('Passwords do not match')
+        }
     }
 
 
@@ -65,7 +62,7 @@ const SignUpForm = ({ setShow }: Props) => {
                 onChange={handleChange}
             />
             <label htmlFor="">Password</label>
-            <input type="password" name='password' value={password} placeholder='Enter your password...'
+            <input type="password" name='pw' value={pw} placeholder='Enter your password...'
                 onChange={handleChange}
             />
             <label htmlFor="">Confirm Password</label>

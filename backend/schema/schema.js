@@ -61,7 +61,7 @@ const ExpensesInputType = new GraphQLInputObjectType({
         paidWith: { type: GraphQLString },
         paidBy: { type: GraphQLString },
         amount: { type: GraphQLFloat },
-        userId: { type: new GraphQLNonNull(GraphQLID) }
+        userId: { type: GraphQLID }
     })
 })
 
@@ -73,8 +73,11 @@ const RootQuery = new GraphQLObjectType({
     fields: {
         expenses: {
             type: new GraphQLList(ExpensesType),
+            args: {
+                data: { type: ExpensesInputType }
+            },
             resolve(parent, args) {
-                return Expenses.find()
+                return Expenses.find({ 'userId': args.data.userId })
             }
         },
         expense: {
@@ -95,6 +98,23 @@ const RootQuery = new GraphQLObjectType({
             args: { id: { type: GraphQLID } },
             resolve(parent, args) {
                 return Users.findById(args.id)
+            }
+        },
+        login: {
+            type: UsersType,
+            args: { data: { type: UserInputType } },
+            resolve: async (parent, args) => {
+
+                const username = args.data.username
+                const user = await Users.findOne({ username })
+                const match = await bcrypt.compare(args.data.pw, user.hashedPw)
+
+                if (match) {
+                    return user
+                } else {
+                    return null
+                }
+
             }
         }
     }
@@ -245,8 +265,7 @@ const mutation = new GraphQLObjectType({
                 const user = await Users.findOne({ username })
                 const match = await bcrypt.compare(args.data.pw, user.hashedPw)
 
-                if (match == true) {
-                    console.log(`Welcome ${user.username}!`);
+                if (match) {
                     return user
                 } else {
                     return null
@@ -254,20 +273,6 @@ const mutation = new GraphQLObjectType({
 
             }
         },
-
-
-        // * LOGOUT
-
-        // userLogout: {
-        //     type: UsersType,
-        //     resolve(req, res) {
-        //         // TODO ADD IN CLIENT
-        //         // req.session.user = null;
-        //         return console.log("Good bye!")
-        //     }
-        // }
-
-
     }
 })
 

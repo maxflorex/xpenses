@@ -1,22 +1,21 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { logout } from '../redux/slices/userSlice'
-import { clean } from '../redux/slices/stytchSlice'
+import { signoutCurrent } from '../redux/slices/currentUser'
+import { cleanUserExpenses } from '../redux/slices/expenseSlice'
 
 const Navigation = () => {
     const [showModal, setShowModal] = useState(false)
-    const username: any = useSelector((state: any) => state.userState.value.username)
+    const current: any = useSelector((state: any) => state.currentState.value)
+    const { username } = current
 
 
     const dispatch = useDispatch()
 
     // LOGOUT
     const logOut = (e: any) => {
-
         e.preventDefault()
-
-        dispatch(logout())
-        dispatch(clean())
+        dispatch(signoutCurrent())
+        dispatch(cleanUserExpenses())
     }
 
     // SHOW OR HIDE LOGOUT MODAL
@@ -37,7 +36,7 @@ const Navigation = () => {
             </a>
             <div className="row">
                 <div className='row' onClick={() => setShowModal(!showModal)} style={{ cursor: 'pointer' }}>
-                    <h4 onMouseEnter={show}>{username !== '' ? username : 'Login'}</h4>
+                    <h4 onMouseEnter={show}>Hi, {username !== '' ? username : 'Login'}</h4>
                     <i className="ri-user-fill"></i>
                 </div>
 

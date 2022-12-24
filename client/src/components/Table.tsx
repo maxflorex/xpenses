@@ -1,28 +1,48 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import DeleteModal from './modals/DeleteModal'
 import EditFormModal from './modals/EditFormModal'
 import TableRow from './TableRow'
 
 type Props = {
-    currentUser: any,
-    sortBy: any
+    sortBy: any,
+    expenses: any
 }
 
-const Table = ({ currentUser, sortBy }: Props) => {
+const Table = ({ sortBy, expenses }: Props) => {
+    const current: any = useSelector((state: any) => state.currentState.value)
     const [showDelete, setShowDelete] = useState<Boolean>(false)
     const [showEdit, setShowEdit] = useState<Boolean>(false)
     const [selected, setSelected] = useState({})
+    const [sorted, setSorted] = useState([])
 
     // DESTRUCTURE
     const { name, amount } = sortBy
 
-    // // SORT BY NAME
-    // const byName = [...data.expenses].sort((a, b) => a.title > b.title ? 1 : -1)
+    console.log(expenses.length);
 
-    // // SORT BY AMOUNT
-    // const byAmount = [...data.expenses].sort((a, b) => b.amount - a.amount)
 
-    
+
+    // SORT BY NAME
+    const byName = async () => {
+        const filtered = await expenses.sort((a: any, b: any) => a.title > b.title ? 1 : -1)
+        return setSorted(filtered)
+    }
+
+    // SORT BY AMOUNT
+    const byAmount = async () => {
+        const filtered = expenses.sort((a: any, b: any) => b.amount - a.amount)
+        return setSorted(filtered)
+    }
+
+    useEffect(() => {
+        if (name && !amount) {
+            byName()
+        } else if (amount && !name) {
+            byAmount()
+        }
+    }, [sortBy])
+
 
 
     return (
@@ -38,17 +58,17 @@ const Table = ({ currentUser, sortBy }: Props) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {/* 
-                    {name && byName.map((item, i) => (
+
+                    {expenses && name && sorted.map((item: any, i: number) => (
                         <tr key={i}>
                             <TableRow {...item} setShowDelete={setShowDelete} setShowEdit={setShowEdit} setSelected={setSelected} />
                         </tr>
                     ))}
-                    {amount && byAmount.map((item, i) => (
+                    {expenses && amount && sorted.map((item: any, i: number) => (
                         <tr key={i}>
                             <TableRow {...item} setShowDelete={setShowDelete} setShowEdit={setShowEdit} setSelected={setSelected} />
                         </tr>
-                    ))} */}
+                    ))}
 
                 </tbody>
             </table>
