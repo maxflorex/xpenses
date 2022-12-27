@@ -1,24 +1,25 @@
 import { useMutation } from '@apollo/client'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { ADD_EXPENSE } from '../api/mutations/expense.mutations'
+import { NEW_EXPENSE } from '../api/mutations/expense.mutations'
 
 const FormExpense = () => {
 
     const current: any = useSelector((state: any) => state.currentState.value)
+    const { id } = current
     const [formValues, setFormValues] = useState({
         title: '',
         paidBy: '',
         paidWith: '',
         amount: '',
-        userId: current.id
+        userId: id
     })
-
     const { title, paidBy, paidWith, amount, userId } = formValues
 
     // TODO ADD EXPENSE
-    const [addExpense]: any = useMutation(ADD_EXPENSE, {
-        variables: { title, paidWith, paidBy, amount, userId: current?.id }
+
+    const [addExpense]: any = useMutation(NEW_EXPENSE, {
+        variables: { title, paidWith, paidBy, amount: parseFloat(amount), userId: id }
     })
 
     // ! ONCHANGE HANDLER
@@ -36,7 +37,7 @@ const FormExpense = () => {
             paidBy: '',
             paidWith: '',
             amount: '',
-            userId: ''
+            userId: id
         })
 
     }
@@ -48,19 +49,17 @@ const FormExpense = () => {
         // EMPTY FIELD CHECKER
         if (title === '' || paidBy === '' || paidWith === '' || amount === '') {
             return alert('Please, make sure all fields are filled in correctly')
+        } else {
+            addExpense(title, paidWith, paidBy, amount, userId).then((res: any) => {
+                console.log(res);
+            }).catch(() => {
+                console.log('Something went wrong...');
+            }).finally(() => {
+                clearForm(e)
+            })
         }
-
-        // SUBMIT EXPENSE
-        addExpense(title, paidWith, paidBy, amount, current.id).then((res: any) => {
-            console.log(res);
-        }).catch((error: any) => {
-            console.log(error);
-        })
-
-        // CLEAR FORM
-        clearForm(e)
     }
-
+    
     return (
         <div className='container'>
             <form onSubmit={handleSubmit}>

@@ -23,35 +23,33 @@ const ADD_USER = gql`
 `
 
 
-const ADD_EXPENSE = gql`
+const NEW_EXPENSE = gql`
     mutation AddExpense(
         $title: String!
-        $paidWith: String! 
-        $paidBy: String! 
-        $amount: Number! 
-        $userId: ID! 
+        $paidWith: String!
+        $paidBy: String!
+        $amount: Float!
+        $userId: ID!
     ) {
         addExpense(
-            data: {
+            data:{ 
                 title: $title
                 paidWith: $paidWith
                 paidBy: $paidBy
                 amount: $amount
-                userId: $userId 
-            }
-        ) {
-            id
-            title
-            paidWith
-            paidBy
-            amount
-            user {
-                id
-                username
-            }
-        }
+                userId: $userId
+                }) {
+                    id
+                    title
+                    user {
+                    username
+                    email
+                    }
+                }
+
     }
 `
+
 
 const USER_LOGIN = gql`
     mutation UserLogin(
@@ -75,4 +73,4 @@ const USER_LOGIN = gql`
 
 
 
-export { ADD_USER, ADD_EXPENSE, USER_LOGIN }
+export { ADD_USER, USER_LOGIN, NEW_EXPENSE }

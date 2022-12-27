@@ -7,7 +7,7 @@ import ExpensesList from '../components/ExpensesList'
 import Footer from '../components/Footer'
 import Hero from '../components/Hero'
 import Navigation from '../components/Navigation'
-import { cleanUserExpenses, userExpenses } from '../redux/slices/expenseSlice'
+import { userExpenses } from '../redux/slices/expenseSlice'
 
 
 const Home = () => {
@@ -17,7 +17,6 @@ const Home = () => {
 	const { username } = current
 	const dispatch = useDispatch()
 	const { loading, error, data } = useQuery(GET_EXPENSES, { variables: { userId: current?.id || '' } })
-
 
 	// * CHECK IF LOGGED IN
 	useEffect(() => {
@@ -34,7 +33,7 @@ const Home = () => {
 		if (!loading && !error && data) {
 			dispatch(userExpenses(data))
 		}
-	}, [current])	
+	}, [current])
 
 
 	//  * LOGIN OR REGISTER

@@ -1,25 +1,21 @@
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import Actions from './Actions'
 import Table from './Table'
 
 const ExpensesList = () => {
+    const [sorted, setSorted] = useState([])
+    const expenses: any = useSelector((state: any) => state.expenseState.value.expenses) || null
 
-    const expenses: any = useSelector((state: any) => state.expenseState.value.expenses)
-    const [sortBy, setSortBy] = useState({
-        name: true,
-        amount: false
-    })
+    console.log(expenses);
 
     return (<>
-        <Actions setSortBy={setSortBy} sortBy={sortBy} />
-        <div className="container">
-            {
-                expenses && expenses.length > 0 ? (
-                    <Table sortBy={sortBy} expenses={expenses} />
-                ) : (<h2>No expenses</h2>)
-            }
-        </div>
+        {
+            expenses && expenses.length > 0 ? (
+                <Table expenses={expenses} sorted={sorted} setSorted={setSorted} />
+            ) : (<div className='container'>
+                <h2>No expenses</h2>
+            </div>
+            )}
     </>
     )
 }
