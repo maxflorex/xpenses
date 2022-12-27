@@ -6,7 +6,7 @@ import { USER_LOGIN } from '../api/mutations/expense.mutations'
 import { currentUser } from '../redux/slices/currentUser'
 
 interface Props {
-    setShow: any
+    setShow: any,
 }
 
 const LoginForm = ({ setShow }: Props) => {

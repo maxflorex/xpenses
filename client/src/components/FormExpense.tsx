@@ -1,10 +1,12 @@
 import { useMutation } from '@apollo/client'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { NEW_EXPENSE } from '../api/mutations/expense.mutations'
+import { GET_EXPENSES } from '../api/queries/expenses.queries'
+import { Context } from '../context/toggleUpdateContext'
 
 const FormExpense = () => {
-
+    const [toggleUpdate, setToggleUpdate] = useContext(Context)
     const current: any = useSelector((state: any) => state.currentState.value)
     const { id } = current
     const [formValues, setFormValues] = useState({
@@ -19,7 +21,8 @@ const FormExpense = () => {
     // TODO ADD EXPENSE
 
     const [addExpense]: any = useMutation(NEW_EXPENSE, {
-        variables: { title, paidWith, paidBy, amount: parseFloat(amount), userId: id }
+        variables: { title, paidWith, paidBy, amount: parseFloat(amount), userId: id },
+        refetchQueries: [{ query: GET_EXPENSES, variables: { userId: id } }],
     })
 
     // ! ONCHANGE HANDLER
@@ -50,8 +53,8 @@ const FormExpense = () => {
         if (title === '' || paidBy === '' || paidWith === '' || amount === '') {
             return alert('Please, make sure all fields are filled in correctly')
         } else {
-            addExpense(title, paidWith, paidBy, amount, userId).then((res: any) => {
-                console.log(res);
+            addExpense(title, paidWith, paidBy, amount, userId).then(() => {
+                console.log('Submitted');                
             }).catch(() => {
                 console.log('Something went wrong...');
             }).finally(() => {
@@ -59,7 +62,7 @@ const FormExpense = () => {
             })
         }
     }
-    
+
     return (
         <div className='container'>
             <form onSubmit={handleSubmit}>

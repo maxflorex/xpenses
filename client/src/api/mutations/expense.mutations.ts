@@ -1,27 +1,15 @@
-import { gql } from "@apollo/client";
-
+import { gql } from '@apollo/client';
 
 const ADD_USER = gql`
-    mutation AddUser(
-        $username: String!
-        $email: String!
-        $pw: String!
-    ) {
-        addUser (
-            data: {
-                username: $username
-                email: $email
-                pw: $pw
-            }
-        ) {
+    mutation AddUser($username: String!, $email: String!, $pw: String!) {
+        addUser(data: { username: $username, email: $email, pw: $pw }) {
             id
             username
             email
             balance
         }
     }
-`
-
+`;
 
 const NEW_EXPENSE = gql`
     mutation AddExpense(
@@ -32,24 +20,23 @@ const NEW_EXPENSE = gql`
         $userId: ID!
     ) {
         addExpense(
-            data:{ 
+            data: {
                 title: $title
                 paidWith: $paidWith
                 paidBy: $paidBy
                 amount: $amount
                 userId: $userId
-                }) {
-                    id
-                    title
-                    user {
-                    username
-                    email
-                    }
-                }
-
+            }
+        ) {
+            id
+            title
+            user {
+                username
+                email
+            }
+        }
     }
-`
-
+`;
 
 const USER_LOGIN = gql`
     mutation UserLogin(
@@ -57,20 +44,27 @@ const USER_LOGIN = gql`
         # $email: String!
         $pw: String!
     ) {
-        userLogin(
-            data: {
-                username: $username
-                pw: $pw
-            }
-        ) {
+        userLogin(data: { username: $username, pw: $pw }) {
             id
             username
             email
             balance
         }
     }
-`
+`;
 
+const DELETE_EXPENSE = gql`
+    mutation DeleteExpense($id: ID!) {
+        deleteExpense(id: $id) {
+            id
+            title
+            user {
+                id
+                username
+                email
+            }
+        }
+    }
+`;
 
-
-export { ADD_USER, USER_LOGIN, NEW_EXPENSE }
+export { ADD_USER, USER_LOGIN, NEW_EXPENSE, DELETE_EXPENSE };

@@ -4,9 +4,7 @@ import Table from './Table'
 
 const ExpensesList = () => {
     const [sorted, setSorted] = useState([])
-    const expenses: any = useSelector((state: any) => state.expenseState.value.expenses) || null
-
-    console.log(expenses);
+    const expenses: any = useSelector((state: any) => state.expenseState.value.expenses)
 
     return (<>
         {

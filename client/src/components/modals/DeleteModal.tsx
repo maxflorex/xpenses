@@ -1,4 +1,8 @@
 import { useMutation } from '@apollo/client'
+import { useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { DELETE_EXPENSE } from '../../api/mutations/expense.mutations'
+import { GET_EXPENSES } from '../../api/queries/expenses.queries'
 
 type Props = {
     setShowDelete: any,
@@ -6,6 +10,9 @@ type Props = {
 }
 
 const DeleteModal = ({ setShowDelete, selected }: Props) => {
+    const current: any = useSelector((state: any) => state.currentState.value)
+    const { id } = current
+    const idDelete = selected.id
 
     const exitModal = (e: any) => {
         if (e.target.classList.contains('close')) {
@@ -13,25 +20,33 @@ const DeleteModal = ({ setShowDelete, selected }: Props) => {
         }
     }
 
-    // const [deleteExpense]: any = useMutation(DELETE_EXPENSE, {
-    //     variables: { id: selected.id },
-    //     refetchQueries: [{ query: GET_EXPENSES }]
-    // })
+    const [deleteExpense]: any = useMutation(DELETE_EXPENSE, {
+        variables: { id: idDelete },
+        refetchQueries: [{ query: GET_EXPENSES, variables: { userId: id } }],
+    })
 
     const handleDelete = (e: any) => {
         e.preventDefault()
 
-        // deleteExpense(selected.id).then(() => {
-        //     console.log('Deleted');
-        // }).catch((error: any) => {
-        //     console.log(error);
-        // })
+        deleteExpense(idDelete).then(() => {
+            console.log('Deleted');
+        }).catch((error: any) => {
+            console.log('Oops!', error);
+        })
 
         setShowDelete(false)
     }
 
-    console.log(selected.id);
+    useEffect(() => {
+        if (selected.id) {
+            document.body.style.overflow = 'auto' 
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+    }, [selected])
 
+    console.log(idDelete);
+    
 
     return (
         <div className='modal close' onClick={exitModal}>

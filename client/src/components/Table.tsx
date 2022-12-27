@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useEffect, useState } from 'react'
+import { useDisableScroll } from '../hooks/useDisableScroll'
 import FormExpense from './FormExpense'
 import DeleteModal from './modals/DeleteModal'
 import EditFormModal from './modals/EditFormModal'
@@ -20,7 +20,7 @@ const Table = ({ expenses, sorted, setSorted }: Props) => {
         name: true,
         amount: false
     })
-
+    const [open, setOpen] = useState(false)
 
     // DESTRUCTURE
     const { name, amount } = sortBy
@@ -37,12 +37,10 @@ const Table = ({ expenses, sorted, setSorted }: Props) => {
         } else if (amount) {
             setSorted(byAmount)
         }
-    }, [sortBy])
-
+    }, [sortBy, expenses])
 
     return (
         <>
-
             <div className='container column'>
                 <div className="row">
 
@@ -51,7 +49,7 @@ const Table = ({ expenses, sorted, setSorted }: Props) => {
                     <button className='btn-outlined' onClick={() => setSortBy({ amount: !sortBy.amount, name: false })}>Sort By Amount</button>
                 </div>
                 {showForm &&
-                    <div style={{width: '100%'}}>
+                    <div style={{ width: '100%' }}>
                         <FormExpense />
                     </div>}
             </div>

@@ -1,15 +1,13 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { signoutCurrent } from '../redux/slices/currentUser'
 import { cleanUserExpenses } from '../redux/slices/expenseSlice'
 
 const Navigation = () => {
+    const dispatch = useDispatch()
     const [showModal, setShowModal] = useState(false)
     const current: any = useSelector((state: any) => state.currentState.value)
     const { username } = current
-
-
-    const dispatch = useDispatch()
 
     // LOGOUT
     const logOut = (e: any) => {

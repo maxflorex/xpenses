@@ -1,21 +1,22 @@
 import { useQuery } from '@apollo/client'
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { GET_EXPENSES, GET_USERS } from '../api/queries/expenses.queries'
+import { GET_EXPENSES } from '../api/queries/expenses.queries'
 import Auth from '../components/Auth'
 import ExpensesList from '../components/ExpensesList'
 import Footer from '../components/Footer'
 import Hero from '../components/Hero'
 import Navigation from '../components/Navigation'
+import { Context } from '../context/toggleUpdateContext'
 import { userExpenses } from '../redux/slices/expenseSlice'
 
 
 const Home = () => {
-
+	const dispatch = useDispatch()
+	const [toggleUpdate, setToggleUpdate] = useState<boolean>(false)
 	const [isLogged, setIsLogged] = useState<boolean>(false)
 	const current: any = useSelector((state: any) => state.currentState.value)
 	const { username } = current
-	const dispatch = useDispatch()
 	const { loading, error, data } = useQuery(GET_EXPENSES, { variables: { userId: current?.id || '' } })
 
 	// * CHECK IF LOGGED IN
@@ -27,13 +28,12 @@ const Home = () => {
 		}
 	}, [username])
 
-
 	// GET EXPENSES BY USER
 	useEffect(() => {
 		if (!loading && !error && data) {
 			dispatch(userExpenses(data))
 		}
-	}, [current])
+	}, [current, data])
 
 
 	//  * LOGIN OR REGISTER
@@ -42,12 +42,14 @@ const Home = () => {
 	}
 
 	return (
-		<div style={{ marginBottom: '4rem' }}>
-			<Navigation />
-			<Hero />
-			<ExpensesList />
-			<Footer />
-		</div>
+		<Context.Provider value={[toggleUpdate, setToggleUpdate]}>
+			<div style={{ marginBottom: '4rem' }}>
+				<Navigation />
+				<Hero />
+				<ExpensesList />
+				<Footer />
+			</div>
+		</Context.Provider>
 	)
 }
 

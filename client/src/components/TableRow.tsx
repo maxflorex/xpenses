@@ -20,6 +20,11 @@ const TableRow = (props: (ItemProps & ShowModalProps)) => {
         props.setSelected(props)
     }
 
+    const handleDelete = () => {
+        props.setShowDelete(true)
+        props.setSelected(props)
+    }
+
     return (
         <>
             <td>{props.title}</td>
@@ -28,7 +33,7 @@ const TableRow = (props: (ItemProps & ShowModalProps)) => {
             <td>{props.amount}</td>
             <td>
                 <div className="row">
-                    <i className="ri-delete-bin-5-line actions" onClick={() => props.setShowDelete(true)}></i>
+                    <i className="ri-delete-bin-5-line actions" onClick={handleDelete}></i>
                     <i className="ri-edit-2-line actions" onClick={handleEdit}></i>
                 </div>
             </td>
