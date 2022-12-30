@@ -3,10 +3,10 @@ import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { GET_EXPENSES } from '../api/queries/expenses.queries'
 import Auth from '../components/Auth'
-import ExpensesList from '../components/ExpensesList'
 import Footer from '../components/Footer'
 import Hero from '../components/Hero'
 import Navigation from '../components/Navigation'
+import Table from '../components/Table'
 import { Context } from '../context/toggleUpdateContext'
 import { userExpenses } from '../redux/slices/expenseSlice'
 
@@ -46,7 +46,7 @@ const Home = () => {
 			<div style={{ marginBottom: '4rem' }}>
 				<Navigation />
 				<Hero />
-				<ExpensesList />
+				<Table />
 				<Footer />
 			</div>
 		</Context.Provider>

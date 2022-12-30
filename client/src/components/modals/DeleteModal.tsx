@@ -43,10 +43,7 @@ const DeleteModal = ({ setShowDelete, selected }: Props) => {
         } else {
             document.body.style.overflow = 'auto';
         }
-    }, [selected])
-
-    console.log(idDelete);
-    
+    }, [selected])    
 
     return (
         <div className='modal close' onClick={exitModal}>

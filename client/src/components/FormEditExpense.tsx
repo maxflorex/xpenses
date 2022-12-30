@@ -1,5 +1,8 @@
 import { useMutation } from '@apollo/client'
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
+import { UPDATE_EXPENSE } from '../api/mutations/expense.mutations'
+import { GET_EXPENSES } from '../api/queries/expenses.queries'
 
 type Props = {
     selected: any,
@@ -7,15 +10,16 @@ type Props = {
 }
 
 const FormEditExpense = ({ selected, setShowEdit }: Props) => {
+    const current: any = useSelector((state: any) => state.currentState.value)
     const [formValues, setFormValues] = useState({
         title: selected.title,
         paidBy: selected.paidBy,
-        paidWith: selected.paidWith || '',
+        paidWith: selected.paidWith,
         amount: selected.amount,
     })
 
     const { title, paidBy, paidWith, amount } = formValues
-    const id = selected.id
+    const { id } = selected
 
     const handleChange = (e: any) => {
         setFormValues({
@@ -36,25 +40,28 @@ const FormEditExpense = ({ selected, setShowEdit }: Props) => {
 
     }
 
-    // const [updateExpense]: any = useMutation(UPDATE_EXPENSE, {
-    //     variables: { id: id, title, paidBy, paidWith, amount },
-    //     refetchQueries: [{ query: GET_EXPENSE, variables: { id: id } }]
-    // })
+    const [updateExpense]: any = useMutation(UPDATE_EXPENSE, {
+        variables: { id: id, title, paidBy, paidWith, amount: parseFloat(amount) },
+        refetchQueries: [{ query: GET_EXPENSES, variables: { userId: current.id } }],
+    })
 
     const handleSubmit = (e: any) => {
-
         e.preventDefault()
 
         if (title === '' || paidBy === '' || paidWith === '' || amount === '') {
             return alert('Please, make sure all fields are filled in correctly')
         }
 
-        // updateExpense(title, paidBy, paidWith, amount).then(() => {
-        //     console.log('Updated!');
-        // })
+        updateExpense(title, paidBy, paidWith, amount).then(() => {
+            console.log('Updated!');
+        }).catch(() => {
+            console.log('Oops! Update unseccesful');
+
+        })
 
         setShowEdit(false)
     }
+
 
     return (
         <form onSubmit={handleSubmit}>

@@ -10,7 +10,8 @@ const UserSchema = new mongoose.Schema({
         unique: true
     },
     balance: {
-        type: Number
+        type: Number,
+        default: 0
     },
     hashedPw: {
         type: String

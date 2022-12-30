@@ -1,4 +1,3 @@
-import React from 'react'
 import FormEditExpense from '../FormEditExpense'
 
 type Props = {
@@ -7,7 +6,6 @@ type Props = {
 }
 
 const EditFormModal = ({ setShowEdit, selected }: Props) => {
-    
 
     const exitModal = (e: any) => {
         if (e.target.classList.contains('close')) {

@@ -67,4 +67,30 @@ const DELETE_EXPENSE = gql`
     }
 `;
 
-export { ADD_USER, USER_LOGIN, NEW_EXPENSE, DELETE_EXPENSE };
+const UPDATE_EXPENSE = gql`
+    mutation UpdateExpense(
+        $id: ID!
+        $title: String!
+        $paidWith: String!
+        $paidBy: String!
+        $amount: Float!
+    ) {
+        updateExpense(
+            id: $id
+            data: {
+                title: $title
+                paidWith: $paidWith
+                paidBy: $paidBy
+                amount: $amount
+            }
+        ) {
+            id
+            title
+            paidBy
+            paidWith
+            amount
+        }
+    }
+`
+
+export { ADD_USER, USER_LOGIN, NEW_EXPENSE, DELETE_EXPENSE, UPDATE_EXPENSE };
