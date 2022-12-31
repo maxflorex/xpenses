@@ -151,6 +151,9 @@ select {
         background-color: $color2;
         cursor: pointer;
     }
+    &:focus {
+        background-color: $color3;
+    }
 }
 
 .grid-3 {
@@ -178,12 +181,13 @@ select {
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
     border: 1px solid rgba(255, 255, 255, 0.2);
-
+    transition-property: all;
+    transition-duration: 2s;
+    // animation-duration: 700 ms;
     h4 {
         color: $color2;
         font-weight: normal;
     }
-
     div {
         display: flex;
         flex-direction: column;
@@ -193,9 +197,8 @@ select {
         height: 100%;
         align-self: center;
     }
-
-    &.mod {
-        background: rgba(0, 0, 0, 0.9);
+    &:hover {
+        background: rgba(0, 0, 0, 0.2);
     }
 }
 
@@ -228,6 +231,8 @@ thead {
 tr {
     border: 1px solid $color4;
     border-radius: 1rem;
+    transition-property: all;
+    transition-duration: 300ms;
     &:nth-child(even) {
         background-color: $color2;
     }
@@ -427,21 +432,12 @@ th {
             background-color: $color1;
         }
     }
-
-    &.mod2 {
-        border: 1px solid $color2;
-        color: $color1;
-
-        h4 {
-            color: $color1;
-        }
-
-        h2 {
-            border-top: 1px solid $color1;
-        }
-
-        &:hover {
-            background-color: $color4;
-        }
-    }
 }
+
+.update-input {
+        box-sizing: border-box;
+        margin-bottom: 0.8rem;
+        width: 7.2rem;
+        border: 1px solid $color5;
+    }
+    

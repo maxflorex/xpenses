@@ -93,4 +93,30 @@ const UPDATE_EXPENSE = gql`
     }
 `
 
-export { ADD_USER, USER_LOGIN, NEW_EXPENSE, DELETE_EXPENSE, UPDATE_EXPENSE };
+const UPDATE_USER = gql`
+    mutation UpdateUser(
+        $id: ID!
+        $username: String
+        $email: String
+        $pw: String
+        $balance: Float
+    ) {
+        updateUser(
+            id: $id
+            data : {
+                username: $username
+                email: $email
+                pw: $pw
+                balance: $balance
+                }
+            ) {
+                id
+                username
+                email
+                balance
+            }
+
+    }
+`
+
+export { ADD_USER, USER_LOGIN, NEW_EXPENSE, DELETE_EXPENSE, UPDATE_EXPENSE, UPDATE_USER };

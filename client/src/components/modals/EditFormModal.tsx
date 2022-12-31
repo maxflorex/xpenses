@@ -17,7 +17,7 @@ const EditFormModal = ({ setShowEdit, selected }: Props) => {
     return (
         <div className='modal close' onClick={exitModal}>
             <div className="column">
-                <h1>Edit Form</h1>
+                <h1>Edit Expense</h1>
                 <FormEditExpense selected={selected} setShowEdit={setShowEdit} />
                 <div className='btn-close'>
                     <i className="ri-close-fill close" onClick={exitModal}></i>

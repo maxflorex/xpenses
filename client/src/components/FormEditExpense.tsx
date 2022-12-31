@@ -1,8 +1,9 @@
 import { useMutation } from '@apollo/client'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { UPDATE_EXPENSE } from '../api/mutations/expense.mutations'
 import { GET_EXPENSES } from '../api/queries/expenses.queries'
+import { Context } from '../context/toggleUpdateContext'
 
 type Props = {
     selected: any,
@@ -10,7 +11,7 @@ type Props = {
 }
 
 const FormEditExpense = ({ selected, setShowEdit }: Props) => {
-    const current: any = useSelector((state: any) => state.currentState.value)
+    const [current] = useContext(Context)
     const [formValues, setFormValues] = useState({
         title: selected.title,
         paidBy: selected.paidBy,

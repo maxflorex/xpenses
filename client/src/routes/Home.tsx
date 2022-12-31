@@ -13,7 +13,6 @@ import { userExpenses } from '../redux/slices/expenseSlice'
 
 const Home = () => {
 	const dispatch = useDispatch()
-	const [toggleUpdate, setToggleUpdate] = useState<boolean>(false)
 	const [isLogged, setIsLogged] = useState<boolean>(false)
 	const current: any = useSelector((state: any) => state.currentState.value)
 	const { username } = current
@@ -42,7 +41,7 @@ const Home = () => {
 	}
 
 	return (
-		<Context.Provider value={[toggleUpdate, setToggleUpdate]}>
+		<Context.Provider value={[current]}>
 			<div style={{ marginBottom: '4rem' }}>
 				<Navigation />
 				<Hero />
