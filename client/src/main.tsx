@@ -11,6 +11,7 @@ import { client } from './api/api'
 import ResetPassword from './routes/ResetPassword';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
+import Footer from './components/Footer';
 
 const persistor = persistStore(store)
 
@@ -36,11 +37,12 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <PersistGate persistor={persistor}>
       <Provider store={store}>
-          <ApolloProvider client={client}>
-            <div className="main">
-              <RouterProvider router={router} />
-            </div>
-          </ApolloProvider>
+        <ApolloProvider client={client}>
+          <div className="main">
+            <RouterProvider router={router} />
+          </div>
+          <Footer />
+        </ApolloProvider>
       </Provider>
     </PersistGate>
   </React.StrictMode>

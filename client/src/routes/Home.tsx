@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { GET_EXPENSES } from '../api/queries/expenses.queries'
 import Auth from '../components/Auth'
-import Footer from '../components/Footer'
 import Hero from '../components/Hero'
 import Navigation from '../components/Navigation'
 import Table from '../components/Table'
@@ -32,7 +31,7 @@ const Home = () => {
 		if (!loading && !error && data) {
 			dispatch(userExpenses(data))
 		}
-	}, [current, data])
+	}, [current, data, loading])
 
 
 	//  * LOGIN OR REGISTER
@@ -40,13 +39,13 @@ const Home = () => {
 		return <Auth />
 	}
 
+
 	return (
 		<Context.Provider value={[current]}>
 			<div style={{ marginBottom: '4rem' }}>
 				<Navigation />
 				<Hero />
 				<Table />
-				<Footer />
 			</div>
 		</Context.Provider>
 	)

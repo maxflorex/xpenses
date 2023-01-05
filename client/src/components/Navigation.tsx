@@ -2,12 +2,18 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { signoutCurrent } from '../redux/slices/currentUser'
 import { cleanUserExpenses } from '../redux/slices/expenseSlice'
+import DeleteProfileModal from './modals/DeleteProfileModal'
+import EditProfileFormModal from './modals/EditProfileFormModal'
+import EditProfileModal from './modals/EditProfileSidebar'
 
 const Navigation = () => {
     const dispatch = useDispatch()
     const [showModal, setShowModal] = useState(false)
     const current: any = useSelector((state: any) => state.currentState.value)
     const { username } = current
+    const [showEditProfile, setShowEditProfile] = useState(false)
+    const [showDelete, setShowDelete] = useState(false)
+    const [showForm, setShowForm] = useState(false)
 
     // LOGOUT
     const logOut = (e: any) => {
@@ -41,10 +47,16 @@ const Navigation = () => {
                 {/* MODAL */}
                 {showModal &&
                     <div className='balance signout-modal'>
+                        <span className='link' onClick={() => setShowEditProfile(true)}>Edit Profile</span>
                         <button className='btn' onClick={logOut}>Sign Out</button>
                     </div>
                 }
             </div>
+
+            {/* MODALS */}
+            {showEditProfile && <EditProfileModal setShow={setShowEditProfile} setShowDelete={setShowDelete} setShowForm={setShowForm} />}
+            {showDelete && <DeleteProfileModal setShowDelete={setShowDelete} setShow={setShowEditProfile} />}
+            {showForm && <EditProfileFormModal setShowForm={setShowForm} setShow={setShowEditProfile} />}
         </div>
     )
 }
