@@ -41,13 +41,18 @@ const Navigation = () => {
             <div className="row">
                 <div className='row' onClick={() => setShowModal(!showModal)} style={{ cursor: 'pointer' }}>
                     <h4 onMouseEnter={show}>Hi, {username !== '' ? username : 'Login'}</h4>
-                    <i className="ri-user-fill"></i>
+                    {!showModal
+                        ? <i className="ri-arrow-down-s-line"></i>
+                        : <i className="ri-arrow-up-s-line"></i>
+                    }
                 </div>
 
                 {/* MODAL */}
                 {showModal &&
                     <div className='balance signout-modal'>
-                        <span className='link' onClick={() => setShowEditProfile(true)}>Edit Profile</span>
+                        <span className='link' onClick={() => setShowEditProfile(true)}>
+                            Edit Profile
+                        </span>
                         <button className='btn' onClick={logOut}>Sign Out</button>
                     </div>
                 }
@@ -55,8 +60,8 @@ const Navigation = () => {
 
             {/* MODALS */}
             {showEditProfile && <EditProfileModal setShow={setShowEditProfile} setShowDelete={setShowDelete} setShowForm={setShowForm} />}
-            {showDelete && <DeleteProfileModal setShowDelete={setShowDelete} setShow={setShowEditProfile} />}
-            {showForm && <EditProfileFormModal setShowForm={setShowForm} setShow={setShowEditProfile} />}
+            {showDelete && <DeleteProfileModal setShowDelete={setShowDelete} setShow={setShowEditProfile} current={current} />}
+            {showForm && <EditProfileFormModal setShowForm={setShowForm} setShow={setShowEditProfile} current={current} />}
         </div>
     )
 }

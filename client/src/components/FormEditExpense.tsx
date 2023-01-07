@@ -67,7 +67,7 @@ const FormEditExpense = ({ selected, setShowEdit }: Props) => {
     return (
         <form onSubmit={handleSubmit}>
             <input type="text" placeholder='Description...' name='title' onChange={handleChange} value={title} />
-            <input type="text" placeholder='Amount...' name='amount' onChange={handleChange} value={amount} />
+            <input type="number" placeholder='Amount...' name='amount' onChange={handleChange} value={amount} />
             <select name='paidBy' onChange={handleChange} value={paidBy}>
                 <option hidden={true} >Select a person</option>
                 <option value="Max">Max</option>

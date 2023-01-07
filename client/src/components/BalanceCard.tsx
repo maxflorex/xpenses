@@ -37,7 +37,7 @@ const BalanceCard = () => {
         e.preventDefault()
 
         updateUser(current.id, newBalance).then(() => {
-            const nb = parseInt(newBalance)
+            const nb = parseFloat(newBalance)
             dispatch(currentUser({ id: id, username: username, email: email, balance: nb }))
         }).catch((err: any) => {
             console.log('Something went wrong!', err);
@@ -108,7 +108,7 @@ const BalanceCard = () => {
                                 <div>
                                     <input type="number" className='update-input' value={newBalance} onChange={(e) => setNewBalance(e.target.value)} />
                                     <div style={{ display: 'flex', flexDirection: 'row', gap: '0.6rem' }}>
-                                        <button className='btn mod'>Update</button>
+                                        <button className='btn mod' onClick={handleUpdate}>Submit</button>
                                         <button className='btn3' onClick={() => setShowUpdateForm(!showUpdateForm)}>close</button>
                                     </div>
                                 </div>}

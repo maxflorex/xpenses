@@ -16,7 +16,7 @@ const LoginForm = ({ setShow }: Props) => {
     })
     const { username, pw } = newUser
     const dispatch = useDispatch()
-    
+
 
     // LOGIN MUTATION
     const [userLogin]: any = useMutation(USER_LOGIN, {
@@ -39,7 +39,6 @@ const LoginForm = ({ setShow }: Props) => {
         userLogin(username, pw).then((res: any) => {
             const user = res.data.userLogin
             dispatch(currentUser(user))
-
         }).catch(() => {
             alert('Wrong ID or Password');
         })

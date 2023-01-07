@@ -39,7 +39,6 @@ const Home = () => {
 		return <Auth />
 	}
 
-
 	return (
 		<Context.Provider value={[current]}>
 			<div style={{ marginBottom: '4rem' }}>

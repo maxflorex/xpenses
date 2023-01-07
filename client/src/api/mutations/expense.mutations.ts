@@ -119,4 +119,19 @@ const UPDATE_USER = gql`
     }
 `
 
-export { ADD_USER, USER_LOGIN, NEW_EXPENSE, DELETE_EXPENSE, UPDATE_EXPENSE, UPDATE_USER };
+const DELETE_USER = gql`
+    mutation DeleteUser(
+        $id: ID!
+    ) {
+        deleteUser(
+            id: $id
+        ) {
+            id
+            username
+            email
+            balance 
+        }
+    }
+`
+
+export { ADD_USER, USER_LOGIN, NEW_EXPENSE, DELETE_EXPENSE, UPDATE_EXPENSE, UPDATE_USER, DELETE_USER };
