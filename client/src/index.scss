@@ -1,8 +1,32 @@
-$color1: #feffff;
-$color2: #def2f1;
-$color3: #3aafa9;
-$color4: #2b7a78;
-$color5: #17252a;
+$color: (
+    1: #feffff,
+    2: #def2f1,
+    3: #3aafa9,
+    4: #2b7a78,
+    5: #17252a,
+) !default;
+
+$screen: (
+    'sm': '640px',
+    'md': '768px',
+    'lg': '1024px',
+    'xl': '1280px',
+    '2xl': '1536px',
+) !default;
+
+@mixin flex($direction: row, $justify, $items, $gap) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: $justify;
+    align-items: $items;
+    gap: $gap;
+}
+
+@mixin media($screen: map-get($screen, 'sm')) {
+    @media (max-width: $screen) {
+        @content;
+    }
+}
 
 * {
     margin: 0;
@@ -14,7 +38,7 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background-color: $color2;
+    background-color: map-get($color, 2);
 }
 
 /* width */
@@ -31,18 +55,18 @@ body {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: $color5;
+    background: map-get($color, 5);
     border-radius: 10px;
 }
 
 h1 {
     font-size: 4rem;
     line-height: 4.6rem;
-    color: $color5;
+    color: map-get($color, 5);
 }
 
 a {
-    color: $color5;
+    color: map-get($color, 5);
     text-decoration: none;
 
     &:hover {
@@ -52,15 +76,18 @@ a {
 
 .container {
     display: flex;
-    // justify-content: center;
     max-width: 40rem;
     margin: auto;
-    background-color: $color1;
+    background-color: map-get($color, 1);
     padding: 1rem;
     border-radius: 0.4rem;
     margin-bottom: 1rem;
     &.sidebar {
-        margin-bottom: auto;       
+        margin-bottom: auto;
+    }
+
+    @include media(map-get($screen, sm)) {
+        margin: 1rem;
     }
 }
 
@@ -80,17 +107,21 @@ a {
     justify-content: center;
     height: 100%;
     position: relative;
+
+    @include media() {
+        flex-wrap: wrap;
+    }
 }
 
 footer {
-    position: absolute;
-    background-color: $color4;
+    position: fixed;
+    background-color: map-get($color, 4);
     bottom: 0;
     left: 0;
     right: 0;
     padding: 0.6rem;
     text-align: center;
-    color: $color1;
+    color: map-get($color, 1);
 
     p {
         font-size: 0.6rem;
@@ -98,9 +129,9 @@ footer {
 
     a {
         text-decoration: none;
-        color: $color1;
+        color: map-get($color, 1);
         &:hover {
-            color: $color3;
+            color: map-get($color, 3);
         }
     }
 }
@@ -117,15 +148,15 @@ form {
 
 input,
 select {
-    border: 1px solid $color2;
+    border: 1px solid map-get($color, 2);
     border-radius: 0.2rem;
     box-shadow: none;
     padding: 0.4rem;
-    background-color: $color2;
+    background-color: map-get($color, 2);
     &:focus {
         box-shadow: none;
         outline: 0;
-        background-color: $color1;
+        background-color: map-get($color, 1);
     }
     // &:not(:last-child) {
     //     margin-bottom: 1rem;
@@ -136,26 +167,26 @@ select {
     border-radius: 0.2rem;
     border: none;
     padding: 0.4rem 0.8rem;
-    background-color: $color5;
-    color: $color1;
+    background-color: map-get($color, 5);
+    color: map-get($color, 1);
     &:hover {
-        background-color: $color4;
+        background-color: map-get($color, 4);
         cursor: pointer;
     }
 }
 
 .btn-outlined {
     border-radius: 0.2rem;
-    border: 1px solid $color5;
+    border: 1px solid map-get($color, 5);
     padding: 0.4rem 0.8rem;
     background-color: transparent;
-    color: $color5;
+    color: map-get($color, 5);
     &:hover {
-        background-color: $color2;
+        background-color: map-get($color, 2);
         cursor: pointer;
     }
     &:focus {
-        background-color: $color3;
+        background-color: map-get($color, 3);
     }
 }
 
@@ -185,10 +216,10 @@ select {
     -webkit-backdrop-filter: blur(5px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     transition-property: all;
-    transition-duration: 2s;
+    transition-duration: 1s;
     // animation-duration: 700 ms;
     h4 {
-        color: $color2;
+        color: map-get($color, 2);
         font-weight: normal;
     }
     div {
@@ -203,10 +234,22 @@ select {
     &:hover {
         background: rgba(0, 0, 0, 0.2);
     }
+
+    @include media() {
+        min-width: none;
+        padding: 0.5rem 1rem;
+        backdrop-filter: unset;
+        background: rgba(255, 255, 255, 0.6);
+        flex-wrap: wrap;
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.8);
+        }
+    }
 }
 
 .hero {
-    background-color: $color3;
+    background-color: map-get($color, 3);
     display: flex;
     justify-items: center;
     justify-content: space-between;
@@ -218,77 +261,134 @@ select {
 
     span {
         font-weight: normal;
-        color: $color1;
+        color: map-get($color, 1);
+    }
+
+    @include media(map-get($screen, md)) {
+        flex-direction: column;
+        padding: 2rem 1rem;
+        gap: 1rem;
     }
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
+
+    @include media {
+        display: flex;
+        flex-wrap: wrap;
+    }
 }
 
 thead {
     text-align: left;
+
+    @include media {
+        display: none;
+    }
+}
+
+tbody {
+    @include media {
+        flex: 1;
+    }
 }
 
 tr {
-    border: 1px solid $color4;
+    border: 1px solid map-get($color, 4);
     border-radius: 1rem;
     transition-property: all;
     transition-duration: 300ms;
     &:nth-child(even) {
-        background-color: $color2;
+        background-color: map-get($color, 2);
     }
 
     &:hover:not(.heading) {
-        background-color: $color3;
+        background-color: map-get($color, 3);
+    }
+
+    @include media {
+        display: flex;
+        flex-direction: column;
+        border-radius: 0;
+        height: auto;
+        position: relative;
+        width: 100%;
+        box-sizing: content-box;
+        border: 2px solid map-get($color, 4);
+
+        &:not(:last-child) {
+            margin-bottom: 1rem;
+        }
     }
 }
 
 td,
 th {
-    padding: 0.6rem;
+    padding: 1rem 0.6rem;
+    text-align: right;
+    box-sizing: border-box;
+
+    @include media {
+        &:before {
+            content: attr(data-label);
+            position: absolute;
+            left: 1rem;
+            font-weight: bold;
+        }
+
+        &.row {
+            background-color: #17252a;
+        }
+
+        border-bottom: 1px solid map-get($color, 4);
+        width: 100%;
+        // &:not(:last-child) {
+        //     margin-bottom: 1rem;
+        // }
+    }
 }
 
 .actions {
     padding: 0.2rem;
     border-radius: 0.2rem;
     text-decoration: none;
-    color: $color5;
+    color: map-get($color, 5);
     &:hover {
         cursor: pointer;
-        background-color: $color2;
+        background-color: map-get($color, 2);
     }
 }
 
 .btn2 {
-    background-color: $color3;
+    background-color: map-get($color, 3);
     border: none;
     padding: 0.4rem;
     border-radius: 0.2rem;
 
     &:hover {
-        background-color: $color5;
-        color: $color1;
+        background-color: map-get($color, 5);
+        color: map-get($color, 1);
         cursor: pointer;
     }
 
     &.mod {
-        background-color: $color1;
+        background-color: map-get($color, 1);
         &:hover {
-            background-color: $color4;
+            background-color: map-get($color, 4);
         }
     }
 }
 
 .btn3 {
     background-color: transparent;
-    border: 1px solid $color4;
+    border: 1px solid map-get($color, 4);
     padding: 0.4rem;
     border-radius: 0.2rem;
 
     &:hover {
-        background-color: $color4;
+        background-color: map-get($color, 4);
         cursor: pointer;
     }
 }
@@ -322,14 +422,14 @@ th {
     position: absolute;
     top: 0;
     right: 0;
-    background-color: $color4;
+    background-color: map-get($color, 4);
     display: flex;
     margin: 1rem;
     padding: 0.4rem;
     border-radius: 0.2rem;
 
     i {
-        color: $color1;
+        color: map-get($color, 1);
     }
 
     &:hover {
@@ -339,7 +439,7 @@ th {
 }
 
 .login-form {
-    background-color: $color1;
+    background-color: map-get($color, 1);
     display: flex;
     flex-direction: column;
     width: 200px;
@@ -353,7 +453,7 @@ th {
         padding-bottom: 1rem;
         margin-bottom: 1rem;
         width: 100%;
-        border-bottom: 1px solid $color2;
+        border-bottom: 1px solid map-get($color, 2);
     }
 
     label {
@@ -392,13 +492,13 @@ th {
     align-content: center;
     i {
         font-size: 4rem;
-        color: $color4;
+        color: map-get($color, 4);
     }
 }
 
 .sign-up {
-    background-color: $color4;
-} 
+    background-color: map-get($color, 4);
+}
 
 .signout-modal {
     position: absolute;
@@ -415,29 +515,29 @@ th {
     font-size: 1rem;
     width: 100%;
     text-align: center;
-    color: $color5;
-    border: 1px solid $color5;
+    color: map-get($color, 5);
+    border: 1px solid map-get($color, 5);
     border-radius: 0.4rem;
 
     &:hover {
-        background-color: $color3;
+        background-color: map-get($color, 3);
     }
 
     h4 {
-        color: $color5;
+        color: map-get($color, 5);
         padding-top: 0.4rem;
     }
 
     h2 {
         padding-top: 0.4rem;
-        border-top: 1px solid $color5;
+        border-top: 1px solid map-get($color, 5);
         width: 100%;
     }
 
     &.mod {
-        background-color: $color2;
+        background-color: map-get($color, 2);
         &:hover {
-            background-color: $color1;
+            background-color: map-get($color, 1);
         }
     }
 }
@@ -446,18 +546,18 @@ th {
     box-sizing: border-box;
     margin-bottom: 0.8rem;
     width: 7.2rem;
-    border: 1px solid $color5;
+    border: 1px solid map-get($color, 5);
 }
 
 .link {
     text-decoration: underline;
     text-underline-offset: 0.4rem;
     padding: 0.4rem 0.8rem;
-    background-color: $color1;
+    background-color: map-get($color, 1);
     border-radius: 0.2rem;
     cursor: pointer;
-    
+
     &:hover {
-        background-color: $color2;
+        background-color: map-get($color, 2);
     }
 }

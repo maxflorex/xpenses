@@ -28,13 +28,13 @@ const TableRow = (props: (ItemProps & ShowModalProps)) => {
 
     return (
         <>
-            <td>{props.index + 1}</td>
-            <td>{props.title}</td>
-            <td>{props.paidBy}</td>
-            <td>{props.paidWith}</td>
-            <td>{props.amount}</td>
-            <td>
-                <div className="row">
+            <td data-label='#'>{props.index + 1}</td>
+            <td data-label='Expense'>{props.title}</td>
+            <td data-label='By'>{props.paidBy}</td>
+            <td data-label='Paid With'>{props.paidWith}</td>
+            <td data-label='Amount'>{props.amount}</td>
+            <td data-label='Actions'>
+                <div className="row-td">
                     <i className="ri-delete-bin-5-line actions" onClick={handleDelete}></i>
                     <i className="ri-edit-2-line actions" onClick={handleEdit}></i>
                 </div>
