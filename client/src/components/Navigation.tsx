@@ -35,7 +35,7 @@ const Navigation = () => {
     return (
         <div className='full'>
             <a href='/' className="row">
-                <h2>Money</h2>
+                <h2>Xpenses</h2>
                 <i className="ri-money-dollar-circle-fill"></i>
             </a>
             <div className="row">

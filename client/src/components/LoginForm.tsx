@@ -38,7 +38,12 @@ const LoginForm = ({ setShow }: Props) => {
 
         userLogin(username, pw).then((res: any) => {
             const user = res.data.userLogin
-            dispatch(currentUser(user))
+
+            if (user !== null) {
+                dispatch(currentUser(user))
+            } else {
+                alert('Wrong ID or Password');
+            }
         }).catch(() => {
             alert('Wrong ID or Password');
         })

@@ -58,7 +58,8 @@ const Table = () => {
                     <table>
                         <thead>
                             <tr className='heading'>
-                                <th>Title</th>
+                                <th>#</th>
+                                <th>Expense</th>
                                 <th>By</th>
                                 <th>Paid With</th>
                                 <th>Amount</th>
@@ -68,7 +69,7 @@ const Table = () => {
                         <tbody>
                             {sorted?.map((item: any, i: number) => (
                                 <tr key={i}>
-                                    <TableRow {...item} setShowDelete={setShowDelete} setShowEdit={setShowEdit} setSelected={setSelected} />
+                                    <TableRow {...item} setShowDelete={setShowDelete} setShowEdit={setShowEdit} setSelected={setSelected} index={i} />
                                 </tr>
                             ))}
                         </tbody>

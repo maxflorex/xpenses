@@ -3,7 +3,8 @@ interface ItemProps {
     title: string
     paidBy: string
     paidWith: string
-    amount: string
+    amount: string,
+    index: number
 }
 
 interface ShowModalProps {
@@ -27,6 +28,7 @@ const TableRow = (props: (ItemProps & ShowModalProps)) => {
 
     return (
         <>
+            <td>{props.index + 1}</td>
             <td>{props.title}</td>
             <td>{props.paidBy}</td>
             <td>{props.paidWith}</td>
