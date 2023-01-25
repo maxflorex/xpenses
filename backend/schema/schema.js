@@ -224,6 +224,26 @@ const mutation = new GraphQLObjectType({
                 return Expenses.findByIdAndRemove(args.id)
             }
         },
+        
+
+        // * DELETE ALL EXPENSES
+
+        deleteAllExpenses: {
+            type: UsersType,
+            args: {
+                id: { type: new GraphQLNonNull(GraphQLID) }
+            },
+            resolve(parent, args) {
+                // REMOVE LINKED EXPENSES
+                Expenses.find({ userId: args.id }).then((xpenses) => {
+                    xpenses.forEach((x) => {
+                        x.remove()
+                    })
+                })
+
+                return Users.findById(args.id)
+            }
+        },
 
 
         // * UPDATE EXPENSE

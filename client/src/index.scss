@@ -28,19 +28,6 @@ $screen: (
     }
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    font-family: 'Eczar', serif;
-}
-
-body {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    background-color: map-get($color, 2);
-}
-
 /* width */
 ::-webkit-scrollbar {
     width: 0.2rem;
@@ -59,10 +46,31 @@ body {
     border-radius: 10px;
 }
 
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Eczar', serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: map-get($color, 2);
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
 h1 {
     font-size: 4rem;
     line-height: 4.6rem;
     color: map-get($color, 5);
+
+    @include media {
+        font-size: 3rem;
+        line-height: 3.2rem;
+        box-sizing: border-box;
+    }
 }
 
 a {
@@ -82,12 +90,16 @@ a {
     padding: 1rem;
     border-radius: 0.4rem;
     margin-bottom: 1rem;
+    box-sizing: border-box;
+    overflow-x: hidden;
+
     &.sidebar {
         margin-bottom: auto;
     }
 
     @include media(map-get($screen, sm)) {
         margin: 1rem;
+        box-sizing: border-box;
     }
 }
 
@@ -107,9 +119,11 @@ a {
     justify-content: center;
     height: 100%;
     position: relative;
+    box-sizing: border-box;
 
     @include media() {
         flex-wrap: wrap;
+        box-sizing: border-box;
     }
 }
 
@@ -122,6 +136,8 @@ footer {
     padding: 0.6rem;
     text-align: center;
     color: map-get($color, 1);
+    width: 100%;
+    box-sizing: border-box;
 
     p {
         font-size: 0.6rem;
@@ -140,10 +156,16 @@ form {
     display: grid;
     grid-template-columns: 1fr 1fr;
     padding: 1rem;
-    box-sizing: content-box;
+    box-sizing: border-box;
     align-self: center;
     gap: 1rem;
-    width: 100%;
+
+    @include media {
+        display: flex;
+        flex-direction: column;
+        margin: 2rem;
+        box-sizing: border-box;
+    }
 }
 
 input,
@@ -151,16 +173,19 @@ select {
     border: 1px solid map-get($color, 2);
     border-radius: 0.2rem;
     box-shadow: none;
-    padding: 0.4rem;
+    padding: 0.6rem 1.2rem;
     background-color: map-get($color, 2);
     &:focus {
         box-shadow: none;
         outline: 0;
         background-color: map-get($color, 1);
     }
-    // &:not(:last-child) {
-    //     margin-bottom: 1rem;
-    // }
+
+    @include media {
+        padding: 0.6rem 1.2rem;
+        font-size: 1rem;
+        box-sizing: border-box;
+    }
 }
 
 .btn {
@@ -172,6 +197,12 @@ select {
     &:hover {
         background-color: map-get($color, 4);
         cursor: pointer;
+    }
+
+    @include media() {
+        padding: 0.6rem 1.2rem;
+        font-size: 1rem;
+        box-sizing: border-box;
     }
 }
 
@@ -188,6 +219,12 @@ select {
     &:focus {
         background-color: map-get($color, 3);
     }
+
+    @include media() {
+        padding: 0.6rem 1.2rem;
+        font-size: 1rem;
+        box-sizing: border-box;
+    }
 }
 
 .grid-3 {
@@ -195,6 +232,7 @@ select {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 1rem;
+    box-sizing: border-box;
 }
 
 .span-2 {
@@ -230,17 +268,19 @@ select {
         align-content: center;
         height: 100%;
         align-self: center;
+        box-sizing: border-box;
     }
     &:hover {
         background: rgba(0, 0, 0, 0.2);
     }
 
     @include media() {
-        min-width: none;
+        min-width: auto;
         padding: 0.5rem 1rem;
         backdrop-filter: unset;
         background: rgba(255, 255, 255, 0.6);
         flex-wrap: wrap;
+        box-sizing: border-box;
 
         &:hover {
             background: rgba(255, 255, 255, 0.8);
@@ -258,6 +298,7 @@ select {
     margin-bottom: 2rem;
     background-image: url('./assets/seamless-grainy-texture-background_1409-2115.jpg');
     background-blend-mode: darken;
+    box-sizing: border-box;
 
     span {
         font-weight: normal;
@@ -268,16 +309,21 @@ select {
         flex-direction: column;
         padding: 2rem 1rem;
         gap: 1rem;
+        width: 100vw;
+        background-image: none;
+        box-sizing: border-box;
     }
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
+    box-sizing: border-box;
 
     @include media {
         display: flex;
         flex-wrap: wrap;
+        box-sizing: border-box;
     }
 }
 
@@ -286,12 +332,17 @@ thead {
 
     @include media {
         display: none;
+        box-sizing: border-box;
     }
 }
 
 tbody {
+    width: auto;
     @include media {
         flex: 1;
+        width: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     }
 }
 
@@ -308,15 +359,15 @@ tr {
         background-color: map-get($color, 3);
     }
 
-    @include media {
+    @include media() {
         display: flex;
         flex-direction: column;
         border-radius: 0;
         height: auto;
         position: relative;
         width: 100%;
-        box-sizing: content-box;
         border: 2px solid map-get($color, 4);
+        box-sizing: border-box;
 
         &:not(:last-child) {
             margin-bottom: 1rem;
@@ -331,6 +382,7 @@ th {
     box-sizing: border-box;
 
     @include media {
+        padding: 0.3rem 0.6rem;
         &:before {
             content: attr(data-label);
             position: absolute;
@@ -366,6 +418,7 @@ th {
     border: none;
     padding: 0.4rem;
     border-radius: 0.2rem;
+    color: black;
 
     &:hover {
         background-color: map-get($color, 5);
@@ -379,6 +432,12 @@ th {
             background-color: map-get($color, 4);
         }
     }
+
+    @include media() {
+        padding: 0.6rem 1.2rem;
+        font-size: 1rem;
+        box-sizing: border-box;
+    }
 }
 
 .btn3 {
@@ -390,6 +449,12 @@ th {
     &:hover {
         background-color: map-get($color, 4);
         cursor: pointer;
+    }
+
+    @include media() {
+        padding: 0.6rem 1.2rem;
+        font-size: 1rem;
+        box-sizing: border-box;
     }
 }
 
@@ -406,9 +471,16 @@ th {
     text-align: center;
     background-color: rgba(255, 255, 255, 0.92);
     z-index: 99;
+    box-sizing: border-box;
+
     &.sidebar {
         width: auto;
         padding: 0 2rem;
+    }
+
+    @include media {
+        padding: 0 1rem;
+        box-sizing: border-box;
     }
 }
 
@@ -436,15 +508,21 @@ th {
         background-color: #17252a;
         cursor: pointer;
     }
+
+    @include media() {
+        padding: 0.6rem 1.2rem;
+        font-size: 1rem;
+        box-sizing: border-box;
+    }
 }
 
 .login-form {
     background-color: map-get($color, 1);
     display: flex;
     flex-direction: column;
-    width: 200px;
+    width: 320px;
     align-items: flex-start;
-    margin: 2rem auto;
+    margin: 2rem 2rem;
     gap: 0.4rem;
     border-radius: 0.2rem;
     padding: 2.4rem 2rem;
@@ -458,9 +536,7 @@ th {
 
     label {
         align-self: flex-start;
-        // &:nth-child(3) {
-        //     margin-top: 1rem;
-        // }
+        font-size: 1.6rem;
     }
 
     input {
@@ -470,9 +546,23 @@ th {
 
     a,
     p {
-        font-size: 0.6rem;
+        font-size: 1rem;
         padding-top: 0.4rem;
         cursor: pointer;
+
+        &:hover {
+            text-decoration: underline;
+            text-underline-offset: 0.4rem;
+        }
+    }
+
+    @include media {
+        width: 90%;
+        box-sizing: border-box;
+
+        h2 {
+            font-size: 2rem;
+        }
     }
 }
 
@@ -480,7 +570,12 @@ th {
     min-height: 100vh;
     margin: 0;
     box-sizing: border-box;
-    width: 32rem;
+
+    @include media() {
+        width: 100%;
+        padding: 4rem 0;
+        box-sizing: border-box;
+    }
 }
 
 .present {
@@ -494,6 +589,11 @@ th {
         font-size: 4rem;
         color: map-get($color, 4);
     }
+
+    @include media() {
+        display: none;
+        box-sizing: border-box;
+    }
 }
 
 .sign-up {
@@ -506,9 +606,17 @@ th {
     right: 1rem;
     margin: 2rem 0;
     z-index: 10;
-    min-height: 2rem;
-    max-height: 6rem;
-    width: 8rem;
+    padding: 1rem;
+    background-color: map-get($color, 1);
+    border-radius: 0.6rem;
+    width: 100%;
+    & div {
+        @include flex(column, center, center, 1rem);
+    }
+
+    &.btn {
+        z-index: 999;
+    }
 }
 
 .card-amount {
@@ -540,6 +648,15 @@ th {
             background-color: map-get($color, 1);
         }
     }
+
+    @include media {
+        width: auto;
+
+        h4 {
+            padding: 0 1rem;
+            box-sizing: border-box;
+        }
+    }
 }
 
 .update-input {
@@ -560,4 +677,14 @@ th {
     &:hover {
         background-color: map-get($color, 2);
     }
+}
+
+.flex-center {
+    @include flex(row, center, center, 0);
+}
+
+.float-nav {
+    position: absolute;
+    width: 100%;
+    padding: 1rem 0;
 }

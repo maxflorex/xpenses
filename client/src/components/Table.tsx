@@ -52,9 +52,8 @@ const Table = () => {
             </div>
 
 
-            {/* TABLE */}
             {expenses && expenses.length > 0 &&
-                <div className="container">
+                <div className="container" style={{overflow: 'hidden'}}>
                     <table>
                         <thead>
                             <tr className='heading'>

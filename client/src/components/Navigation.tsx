@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { signoutCurrent } from '../redux/slices/currentUser'
 import { cleanUserExpenses } from '../redux/slices/expenseSlice'
+import DeleteAllModal from './modals/DeleteAllModal'
 import DeleteProfileModal from './modals/DeleteProfileModal'
 import EditProfileFormModal from './modals/EditProfileFormModal'
 import EditProfileModal from './modals/EditProfileSidebar'
@@ -14,6 +15,7 @@ const Navigation = () => {
     const [showEditProfile, setShowEditProfile] = useState(false)
     const [showDelete, setShowDelete] = useState(false)
     const [showForm, setShowForm] = useState(false)
+    const [showDeleteAll, setShowDeleteAll] = useState(false)
 
     // LOGOUT
     const logOut = (e: any) => {
@@ -32,12 +34,20 @@ const Navigation = () => {
 
     }
 
+    const handleShowProfile = (e: any) => {
+        e.preventDefault()
+        setShowEditProfile(true)
+        document.body.style.overflow = 'hidden'
+    }
+
     return (
         <div className='full'>
             <a href='/' className="row">
                 <h2>Xpenses</h2>
                 <i className="ri-money-dollar-circle-fill"></i>
             </a>
+
+
             <div className="row">
                 <div className='row' onClick={() => setShowModal(!showModal)} style={{ cursor: 'pointer' }}>
                     <h4 onMouseEnter={show}>Hi, {username !== '' ? username : 'Login'}</h4>
@@ -49,19 +59,22 @@ const Navigation = () => {
 
                 {/* MODAL */}
                 {showModal &&
-                    <div className='balance signout-modal'>
-                        <span className='link' onClick={() => setShowEditProfile(true)}>
-                            Edit Profile
-                        </span>
-                        <button className='btn' onClick={logOut}>Sign Out</button>
+                    <div className='signout-modal'>
+                        <div>
+                            <span className='link' onClick={handleShowProfile}>
+                                Edit Profile
+                            </span>
+                            <button className='btn' onClick={logOut}>Sign Out</button>
+                        </div>
                     </div>
                 }
             </div>
 
             {/* MODALS */}
-            {showEditProfile && <EditProfileModal setShow={setShowEditProfile} setShowDelete={setShowDelete} setShowForm={setShowForm} />}
+            {showEditProfile && <EditProfileModal setShow={setShowEditProfile} setShowDelete={setShowDelete} setShowForm={setShowForm} setShowDeleteAll={setShowDeleteAll} />}
             {showDelete && <DeleteProfileModal setShowDelete={setShowDelete} setShow={setShowEditProfile} current={current} />}
             {showForm && <EditProfileFormModal setShowForm={setShowForm} setShow={setShowEditProfile} current={current} />}
+            {showDeleteAll && <DeleteAllModal setShowDeleteAll={setShowDeleteAll} setShowForm={setShowForm} current={current} />}
         </div>
     )
 }

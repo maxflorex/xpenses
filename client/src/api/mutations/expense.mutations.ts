@@ -134,4 +134,18 @@ const DELETE_USER = gql`
     }
 `
 
-export { ADD_USER, USER_LOGIN, NEW_EXPENSE, DELETE_EXPENSE, UPDATE_EXPENSE, UPDATE_USER, DELETE_USER };
+const DELETE_ALL_EXPENSES = gql`
+    mutation DeleteAllJobs(
+        $id: ID!
+    ) {
+        deleteAllJobs(
+            id: $id
+        ) {
+            id
+            username
+            email
+        }
+    }
+`
+
+export { ADD_USER, USER_LOGIN, NEW_EXPENSE, DELETE_EXPENSE, UPDATE_EXPENSE, UPDATE_USER, DELETE_USER, DELETE_ALL_EXPENSES };

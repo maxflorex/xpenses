@@ -67,7 +67,10 @@ const EditProfileFormModal = ({ setShowForm, setShow, current }: Props) => {
 
 	return (
 		<div className='modal close' onClick={exitModal}>
-			<div className="column" style={{justifyItems: 'center'}}>
+			<div className="column" style={{ justifyItems: 'center' }}>
+				<div className='btn-close close' onClick={exitModal}>
+					<i className="ri-close-fill close" onClick={exitModal}></i>
+				</div>
 				<h1>Edit Profile</h1>
 
 				{/* FORM */}
@@ -81,7 +84,7 @@ const EditProfileFormModal = ({ setShowForm, setShow, current }: Props) => {
 				</form>
 
 				<div className="column">
-					<p style={{fontSize: '12px'}}>Warning: If you chance your username, this will replace the previous one used at login</p>
+					<p style={{ fontSize: '12px' }}>Warning: If you chance your username, this will replace the previous one used at login</p>
 				</div>
 
 			</div>

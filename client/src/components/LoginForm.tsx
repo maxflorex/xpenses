@@ -65,7 +65,7 @@ const LoginForm = ({ setShow }: Props) => {
                 <button className='btn' type='submit'>Login</button>
                 <button className='btn2' onClick={() => setShow(false)}>Signup</button>
             </div>
-            <Link to='/reset-password'>Forgot your password?</Link>
+            <Link to='/reset-password' style={{fontSize: '1rem'}}><p>Forgot your password?</p></Link>
         </form>
     )
 }

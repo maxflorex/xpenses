@@ -63,8 +63,7 @@ const FormExpense = ({ setShowForm }: Props) => {
     }
 
     return (
-        <div className='container'>
-
+        <>
             {!submitConfirmation ?
                 (
                     <form onSubmit={handleSubmit}>
@@ -89,7 +88,7 @@ const FormExpense = ({ setShowForm }: Props) => {
                         </div>
                     </div>)
             }
-        </div>
+        </>
     )
 }
 

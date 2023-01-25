@@ -38,9 +38,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <PersistGate persistor={persistor}>
       <Provider store={store}>
         <ApolloProvider client={client}>
-          <div className="main">
-            <RouterProvider router={router} />
-          </div>
+          <RouterProvider router={router} />
           <Footer />
         </ApolloProvider>
       </Provider>

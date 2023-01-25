@@ -28,6 +28,7 @@ const DeleteProfileModal = ({ setShowDelete, setShow, current }: Props) => {
 
           <div className="column" style={{ justifyItems: 'center' }}>
             <h1>Are you sure?</h1>
+            <p>You are about to delete your account!</p>
             <div className="row">
               <button className="btn" onClick={handleDelete}>Yes, delete</button>
               <button className="btn2 close" onClick={exitModal}>No, exit</button>
