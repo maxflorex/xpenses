@@ -58,6 +58,8 @@ const FormExpense = ({ setShowForm }: Props) => {
                 setSubmitConfirmation(true)
             }).catch(() => {
                 console.log('Something went wrong...');
+            }).finally(() => {
+                clearForm(e)
             })
         }
     }

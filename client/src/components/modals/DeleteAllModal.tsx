@@ -1,55 +1,53 @@
 import { useMutation } from '@apollo/client'
+import { current } from '@reduxjs/toolkit'
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
+import { DELETE_ALL_EXPENSES } from '../../api/mutations/expense.mutations'
+import { GET_EXPENSES } from '../../api/queries/expenses.queries'
 import DeleteConfirmationModal from './DeleteConfirmationModal'
 
 type Props = {
     setShowDeleteAll: any,
-    current: any,
-    setShowForm: any
+    setShowSidebar: any
 }
 
-const DeleteAllModal = ({ setShowDeleteAll, current, setShowForm }: Props) => {
-    const [confirmation, setConfirmation] = useState(false)
+const DeleteAllModal = ({ setShowDeleteAll, setShowSidebar }: Props) => {
+    const id: any = useSelector((state: any) => state.currentState.value.id)
+
+    console.log(id);
+
 
     const exitModal = (e: any) => {
         if (e.target.classList.contains('close')) {
             setShowDeleteAll(false)
-            setShowForm(false)
+            setShowSidebar(false)
+            document.body.style.overflow = 'visible'
         }
     }
 
-    const handleDelete = () => {
-        setConfirmation(true)
+    const [deleteAllJobs]: any = useMutation(DELETE_ALL_EXPENSES, {
+        variables: { id: id },
+        refetchQueries: [{ query: GET_EXPENSES, variables: { userId: id } }],
+    })
+
+    const handleDeleteAllJobs = (e: React.SyntheticEvent) => {
+        e.preventDefault()
+        deleteAllJobs(id)
+        exitModal(e)
     }
 
-    // const [deleteUser]: any = useMutation(DELETE_USER, {
-    //     variables: { id: id }
-    // })
-
-    // const [deleteAllJobs]: any = useMutation(DELETE_ALL_JOBS, {
-    //     variables: { id: id },
-    //     refetchQueries: [{ query: GET_JOBS, variables: { userId: id } }],
-    // })
 
     return (
         <>
             <div className='modal close' onClick={exitModal} >
-                {!confirmation ? (
-
-                    <div className="column" style={{ justifyItems: 'center' }}>
-                        <h1>Are you sure?</h1>
-                        <p>You're about to delete all your expenses!</p>
-                        <div className="row">
-                            <button className="btn" onClick={handleDelete}>Yes, delete</button>
-                            <button className="btn2 close" onClick={exitModal}>No, exit</button>
-                        </div>
+                <div className="column" style={{ justifyItems: 'center' }}>
+                    <h1>Are you sure?</h1>
+                    <p>You're about to delete all your expenses!</p>
+                    <div className="row">
+                        <button className="btn close" onClick={handleDeleteAllJobs}>Yes, delete</button>
+                        <button className="btn2 close" onClick={exitModal}>No, exit</button>
                     </div>
-
-                ) : (
-
-                    <DeleteConfirmationModal current={current} />
-
-                )}
+                </div>
                 <div className='btn-close'>
                     <i className="ri-close-fill close" onClick={exitModal}></i>
                 </div>

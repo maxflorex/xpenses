@@ -12,7 +12,7 @@ const Navigation = () => {
     const [showModal, setShowModal] = useState(false)
     const current: any = useSelector((state: any) => state.currentState.value)
     const { username } = current
-    const [showEditProfile, setShowEditProfile] = useState(false)
+    const [showSidebar, setShowSidebar] = useState(false)
     const [showDelete, setShowDelete] = useState(false)
     const [showForm, setShowForm] = useState(false)
     const [showDeleteAll, setShowDeleteAll] = useState(false)
@@ -36,7 +36,7 @@ const Navigation = () => {
 
     const handleShowProfile = (e: any) => {
         e.preventDefault()
-        setShowEditProfile(true)
+        setShowSidebar(true)
         document.body.style.overflow = 'hidden'
     }
 
@@ -71,10 +71,10 @@ const Navigation = () => {
             </div>
 
             {/* MODALS */}
-            {showEditProfile && <EditProfileModal setShow={setShowEditProfile} setShowDelete={setShowDelete} setShowForm={setShowForm} setShowDeleteAll={setShowDeleteAll} />}
-            {showDelete && <DeleteProfileModal setShowDelete={setShowDelete} setShow={setShowEditProfile} current={current} />}
-            {showForm && <EditProfileFormModal setShowForm={setShowForm} setShow={setShowEditProfile} current={current} />}
-            {showDeleteAll && <DeleteAllModal setShowDeleteAll={setShowDeleteAll} setShowForm={setShowForm} current={current} />}
+            {showSidebar && <EditProfileModal setShow={setShowSidebar} setShowDelete={setShowDelete} setShowForm={setShowForm} setShowDeleteAll={setShowDeleteAll} />}
+            {showDelete && <DeleteProfileModal setShowDelete={setShowDelete} setShow={setShowSidebar} />}
+            {showForm && <EditProfileFormModal setShowForm={setShowForm} setShow={setShowSidebar} />}
+            {showDeleteAll && <DeleteAllModal setShowDeleteAll={setShowDeleteAll} setShowSidebar={setShowSidebar} />}
         </div>
     )
 }

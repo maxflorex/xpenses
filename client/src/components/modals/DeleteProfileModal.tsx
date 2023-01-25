@@ -1,19 +1,21 @@
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import DeleteConfirmationModal from './DeleteConfirmationModal'
 
 type Props = {
   setShowDelete: any,
   setShow: any,
-  current: any
 }
 
-const DeleteProfileModal = ({ setShowDelete, setShow, current }: Props) => {
+const DeleteProfileModal = ({ setShowDelete, setShow }: Props) => {
   const [confirmation, setConfirmation] = useState(false)
+  const current: any = useSelector((state: any) => state.currentState.value)
 
   const exitModal = (e: any) => {
     if (e.target.classList.contains('close')) {
       setShowDelete(false)
       setShow(false)
+      document.body.style.overflow = 'visible'
     }
   }
 
@@ -37,7 +39,7 @@ const DeleteProfileModal = ({ setShowDelete, setShow, current }: Props) => {
 
         ) : (
 
-          <DeleteConfirmationModal current={current} />
+          <DeleteConfirmationModal />
 
         )}
         <div className='btn-close'>

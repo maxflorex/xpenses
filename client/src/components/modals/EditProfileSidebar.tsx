@@ -1,5 +1,3 @@
-import React from 'react'
-
 type Props = {
     setShow: any,
     setShowForm: any,
@@ -12,10 +10,9 @@ const EditProfileSidebar = ({ setShow, setShowDelete, setShowForm, setShowDelete
     const exitModal = (e: any) => {
         if (e.target.classList.contains('close')) {
             setShow(false)
-            document.body.style.overflow = 'auto'
+            document.body.style.overflow = 'visible'
         }
     }
-
 
     return (
         <div className='modal close sidebar' onClick={exitModal}>

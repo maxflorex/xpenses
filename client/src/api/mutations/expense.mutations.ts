@@ -135,10 +135,10 @@ const DELETE_USER = gql`
 `
 
 const DELETE_ALL_EXPENSES = gql`
-    mutation DeleteAllJobs(
+    mutation DeleteAllExpenses(
         $id: ID!
     ) {
-        deleteAllJobs(
+        deleteAllExpenses(
             id: $id
         ) {
             id

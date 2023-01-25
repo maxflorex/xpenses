@@ -1,17 +1,14 @@
 import { useMutation } from '@apollo/client'
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { DELETE_USER } from '../../api/mutations/expense.mutations'
 import { signoutCurrent } from '../../redux/slices/currentUser'
 import { cleanUserExpenses } from '../../redux/slices/expenseSlice'
 
-type Props = {
-    current: any
-}
-
-const DeleteConfirmationModal = ({ current }: Props) => {
+const DeleteConfirmationModal = () => {
     const dispatch = useDispatch()
     const [usr, setUsr] = useState('')
+    const current: any = useSelector((state: any) => state.currentState.value)
 
     const [deleteUser]: any = useMutation(DELETE_USER, {
         variables: { id: current.id }

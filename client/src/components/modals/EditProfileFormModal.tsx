@@ -1,6 +1,6 @@
 import { useMutation } from '@apollo/client'
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { UPDATE_USER } from '../../api/mutations/expense.mutations'
 import { GET_EXPENSES } from '../../api/queries/expenses.queries'
 import { currentUser } from '../../redux/slices/currentUser'
@@ -8,11 +8,11 @@ import { currentUser } from '../../redux/slices/currentUser'
 type Props = {
 	setShowForm: any,
 	setShow: any,
-	current: any
 }
 
-const EditProfileFormModal = ({ setShowForm, setShow, current }: Props) => {
+const EditProfileFormModal = ({ setShowForm, setShow }: Props) => {
 	const dispatch = useDispatch()
+	const current: any = useSelector((state: any) => state.currentState.value)
 	const [formValues, setFormValues] = useState({
 		id: current.id,
 		username: current.username,
@@ -32,6 +32,7 @@ const EditProfileFormModal = ({ setShowForm, setShow, current }: Props) => {
 		if (e.target.classList.contains('close')) {
 			setShowForm(false)
 			setShow(false)
+			document.body.style.overflow = 'visible'
 		}
 	}
 
